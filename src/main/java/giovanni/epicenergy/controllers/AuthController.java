@@ -2,6 +2,7 @@ package giovanni.epicenergy.controllers;
 
 import giovanni.epicenergy.entities.Utente;
 import giovanni.epicenergy.payloads.NuovoUtenteDTO;
+import giovanni.epicenergy.payloads.NuovoUtenteResponseDTO;
 import giovanni.epicenergy.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,12 @@ public class AuthController {
 
     // http://localhost:3001/auth/register
 
+    // POST
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public Utente userResponseDTO (@RequestBody NuovoUtenteDTO body ){
+    public NuovoUtenteResponseDTO userResponseDTO (@RequestBody NuovoUtenteDTO body ){
 
-        return this.utenteService.save(body);
+        return new NuovoUtenteResponseDTO(this.utenteService.save(body).getId());
     }
 
 }

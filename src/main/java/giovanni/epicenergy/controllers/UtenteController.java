@@ -16,13 +16,7 @@ public class UtenteController  {
     @Autowired
     private UtenteService utenteService;
 
-    // POST
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public NuovoUtenteResponseDTO userResponseDTO (@RequestBody NuovoUtenteDTO body ){
 
-        return new NuovoUtenteResponseDTO(this.utenteService.save(body).getId());
-    }
 
 
 
