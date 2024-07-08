@@ -18,30 +18,41 @@ import java.util.UUID;
 @ToString
 
 @NoArgsConstructor
-public class Clienti {
+public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private UUID id;
 
+    @Column(name = "ragione_sociale")
     private RagioneSocialeENUM ragioneSociale;
+    @Column(name = "partita_iva")
     private long partitaIva;
     private String email;
+    @Column(name = "data_inserimento")
     private LocalDate dataInserimento;
+    @Column(name = "data_ultimo_contatto")
     private LocalDate dataUltimoContatto;
+    @Column(name = "fatturato_annuale")
     private long fatturatoAnnuale;
     private String pec;
+    @Column(name = "email_contatto")
     private String emailContatto;
+    @Column(name = "nome_contatto")
     private String nomeContatto;
+    @Column(name = "telefono_contatto")
     private long telefonoContatto;
+    @Column(name = "logo_aziendale")
     private String logoAziendale;
 
     @OneToMany(mappedBy = "indirizzoCliente")
-    private List<Indirizzi> sedi;
+    @Column(name = "sedi")
+    private List<Indirizzo> sedi;
     @OneToMany(mappedBy = "clienti")
-    private List<Fatture> listaFatture;
+    @Column(name = "lista_fatture")
+    private List<Fattura> listaFatture;
 
-    public Clienti(RagioneSocialeENUM ragioneSociale, long partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, long fatturatoAnnuale, String pec, String emailContatto, String nomeContatto, long telefonoContatto, String logoAziendale, List<Fatture> listaFatture, List<Indirizzi> sedi) {
+    public Cliente(RagioneSocialeENUM ragioneSociale, long partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, long fatturatoAnnuale, String pec, String emailContatto, String nomeContatto, long telefonoContatto, String logoAziendale, List<Fattura> listaFatture, List<Indirizzo> sedi) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.email = email;

@@ -17,21 +17,21 @@ import java.util.UUID;
 @ToString
 
 @NoArgsConstructor
-public class Fatture {
+public class Fattura {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO )
 
   private UUID id;
     @ManyToOne
-    @JoinColumn(name = "clientiID")
-  private Clienti clienti;
+    @JoinColumn(name = "clienti_ID")
+  private Cliente clienti;
   private long numero;
   private LocalDate data;
   private long importo;
  private TipoFatturaENUM stato;
 
-  public Fatture(long numero, LocalDate data, long importo, TipoFatturaENUM stato) {
+  public Fattura(long numero, LocalDate data, long importo, TipoFatturaENUM stato) {
     this.numero = numero;
     this.data = data;
     this.importo = importo;

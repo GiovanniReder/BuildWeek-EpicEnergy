@@ -15,7 +15,7 @@ import java.util.UUID;
 @ToString
 
 @NoArgsConstructor
-public class Province {
+public class Provincia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
@@ -24,7 +24,7 @@ public class Province {
     private String provincia;
     private String regione;
 
-    public Province(String sigla, String provincia, String regione) {
+    public Provincia(String sigla, String provincia, String regione) {
         this.sigla = sigla;
         this.provincia = provincia;
         this.regione = regione;

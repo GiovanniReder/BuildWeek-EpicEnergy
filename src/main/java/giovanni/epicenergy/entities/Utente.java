@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @NoArgsConstructor
 
-public class Utenti {
+public class Utente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private UUID id;
@@ -30,7 +30,7 @@ public class Utenti {
     private String avatar; //DA SETTARE QUELLA STANDARD
     private TipoUtenteENUM ruolo; //INCOGNITA SE ENUM O NO
 
-    public Utenti(TipoUtenteENUM ruolo, String avatar, String cognome, String nome, String password, String email, String userName) {
+    public Utente(TipoUtenteENUM ruolo, String avatar, String cognome, String nome, String password, String email, String userName) {
         this.ruolo = ruolo;
         this.avatar = avatar;
         this.cognome = cognome;

@@ -15,13 +15,13 @@ import java.util.UUID;
 @ToString
 
 @NoArgsConstructor
-public class Indirizzi {
+public class Indirizzo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private UUID id;
     @ManyToOne
     @JoinColumn(name = "clientiID")
-    private Clienti indirizzoCliente;
+    private Cliente indirizzoCliente;
 
     private String via;
     private long civico;
@@ -29,7 +29,7 @@ public class Indirizzi {
     private long cap;
     private String comune;
 
-    public Indirizzi(String comune, long cap, String località, long civico, String via) {
+    public Indirizzo(String comune, long cap, String località, long civico, String via) {
         this.comune = comune;
         this.cap = cap;
         this.località = località;
