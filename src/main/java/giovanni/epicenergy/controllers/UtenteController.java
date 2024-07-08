@@ -25,6 +25,4 @@ public class UtenteController  {
     return this.utenteService.patchAvatarUtente(currentUser , this.utenteService.uploadAvatar(image));
 } //ricava utente corrente
 
-
-
 }
