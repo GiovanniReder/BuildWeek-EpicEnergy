@@ -2,6 +2,7 @@ package giovanni.epicenergy.services;
 
 import giovanni.epicenergy.entities.Utente;
 import giovanni.epicenergy.enums.TipoUtenteENUM;
+import giovanni.epicenergy.exceptions.BadRequestException;
 import giovanni.epicenergy.exceptions.NotFoundException;
 import giovanni.epicenergy.payloads.NuovoUtenteDTO;
 import giovanni.epicenergy.repositories.UtenteRepository;
@@ -21,7 +22,7 @@ public class UtenteService {
     public Utente save(NuovoUtenteDTO body) {
         this.utenteRepository.findByEmail(body.email()).ifPresent(
                 user -> {
-                    throw new RuntimeException("errore");
+                    throw new BadRequestException("email già in uso");
                 }
         );
 
@@ -31,6 +32,9 @@ public class UtenteService {
 
     public Utente findById(UUID utenteId){
         return utenteRepository.findById(utenteId).orElseThrow(()-> new NotFoundException(utenteId));
+    }
+    public Utente findByMail(String email){
+        return utenteRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("Utente con mail: " + email + " non trovato!"));
     }
 }
 
