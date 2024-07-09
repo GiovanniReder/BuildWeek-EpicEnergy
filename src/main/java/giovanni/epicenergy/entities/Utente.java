@@ -34,7 +34,8 @@ public class Utente implements UserDetails  {
     private String nome;
     private String cognome;
     private String avatar;
-    @OneToMany
+
+    @OneToMany(fetch = FetchType.EAGER)
     private List<RuoloUtente> ruoli= new ArrayList<>();
 
 

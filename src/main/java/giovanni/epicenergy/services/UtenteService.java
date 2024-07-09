@@ -10,6 +10,8 @@ import giovanni.epicenergy.payloads.ruoli.NuovoRuoloDTO;
 import giovanni.epicenergy.payloads.ruoli.NuovoRuoloResponseDTO;
 import giovanni.epicenergy.payloads.utenti.NuovoUtenteDTO;
 import giovanni.epicenergy.repositories.UtenteRepository;
+import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class UtenteService {
     @Autowired
     private PasswordEncoder bcrypt;
@@ -71,4 +74,10 @@ public class UtenteService {
           return utenteRepository.save(found);
 
     }
+
+    public Utente getUtenteById(UUID id) {
+        return utenteRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+    }
+
+
 }
