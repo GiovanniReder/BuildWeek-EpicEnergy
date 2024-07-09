@@ -35,8 +35,6 @@ public class Utente implements UserDetails  {
     private String cognome;
     private String avatar;
     @OneToMany
-
-
     private List<RuoloUtente> ruoli= new ArrayList<>();
 
 
