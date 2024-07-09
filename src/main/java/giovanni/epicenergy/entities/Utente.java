@@ -35,13 +35,13 @@ public class Utente implements UserDetails {
     private String avatar; //DA SETTARE QUELLA STANDARD
     private TipoUtenteENUM ruolo; //INCOGNITA SE ENUM O NO
 
-    public Utente(TipoUtenteENUM ruolo,  String cognome, String nome, String password, String email, String userName) {
-        this.ruolo = ruolo;
+    public Utente(String cognome, String nome, String password, String email, String userName) {
         this.cognome = cognome;
         this.nome = nome;
         this.password = password;
         this.email = email;
         this.userName = userName;
+        this.ruolo = TipoUtenteENUM.USER;
         this.avatar = "https://ui-avatars.com/api/?name=" + this.nome + "+" + this.cognome ;
     }
 
