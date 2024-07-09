@@ -1,4 +1,4 @@
-package giovanni.epicenergy.payloads;
+package giovanni.epicenergy.payloads.utenti;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;

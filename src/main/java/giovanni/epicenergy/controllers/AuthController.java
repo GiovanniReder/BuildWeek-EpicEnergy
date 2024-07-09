@@ -1,11 +1,10 @@
 package giovanni.epicenergy.controllers;
 
-import giovanni.epicenergy.entities.Utente;
 import giovanni.epicenergy.exceptions.BadRequestException;
-import giovanni.epicenergy.payloads.NuovoUtenteDTO;
-import giovanni.epicenergy.payloads.NuovoUtenteResponseDTO;
-import giovanni.epicenergy.payloads.UtenteLoginDTO;
-import giovanni.epicenergy.payloads.UtenteLoginResponseDTO;
+import giovanni.epicenergy.payloads.utenti.NuovoUtenteDTO;
+import giovanni.epicenergy.payloads.utenti.NuovoUtenteResponseDTO;
+import giovanni.epicenergy.payloads.utenti.UtenteLoginDTO;
+import giovanni.epicenergy.payloads.utenti.UtenteLoginResponseDTO;
 import giovanni.epicenergy.services.AuthService;
 import giovanni.epicenergy.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;

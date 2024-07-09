@@ -2,7 +2,7 @@ package giovanni.epicenergy.services;
 
 import giovanni.epicenergy.entities.Utente;
 import giovanni.epicenergy.exceptions.UnauthorizedException;
-import giovanni.epicenergy.payloads.UtenteLoginDTO;
+import giovanni.epicenergy.payloads.utenti.UtenteLoginDTO;
 import giovanni.epicenergy.security.JWTTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -3,7 +3,7 @@ package giovanni.epicenergy.services;
 import giovanni.epicenergy.entities.RuoloUtente;
 import giovanni.epicenergy.exceptions.BadRequestException;
 import giovanni.epicenergy.exceptions.NotFoundException;
-import giovanni.epicenergy.payloads.NuovoRuoloDTO;
+import giovanni.epicenergy.payloads.ruoli.NuovoRuoloDTO;
 import giovanni.epicenergy.repositories.RuoloUtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +26,7 @@ public class RuoloUtenteService {
 public RuoloUtente findByRuolo(String ruolo){
         return this.ruoloUtenteRepository.findByRuolo(ruolo).orElseThrow(()-> new NotFoundException("Ruolo non trovato!"));
 }
+
 
 
 

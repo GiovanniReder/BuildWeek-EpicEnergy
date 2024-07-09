@@ -1,6 +1,6 @@
 package giovanni.epicenergy;
 
-import giovanni.epicenergy.payloads.NuovoRuoloDTO;
+import giovanni.epicenergy.payloads.ruoli.NuovoRuoloDTO;
 import giovanni.epicenergy.services.RuoloUtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,7 +15,7 @@ public class MyRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-            ruoloUtenteService.save(new NuovoRuoloDTO("USER") )  ;
-            ruoloUtenteService.save(new NuovoRuoloDTO("ADMIN") )  ;
+        //    ruoloUtenteService.save(new NuovoRuoloDTO("USER") )  ;
+          //  ruoloUtenteService.save(new NuovoRuoloDTO("ADMIN") )  ;
     }
 }
