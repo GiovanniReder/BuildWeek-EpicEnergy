@@ -22,7 +22,7 @@ import java.util.UUID;
 
 @NoArgsConstructor
 
-public class Utente implements UserDetails {
+public class Utente implements UserDetails  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private UUID id;
@@ -32,8 +32,11 @@ public class Utente implements UserDetails {
     private String password;
     private String nome;
     private String cognome;
-    private String avatar; //DA SETTARE QUELLA STANDARD
-    private TipoUtenteENUM ruolo; //INCOGNITA SE ENUM O NO
+    private String avatar;
+  //  @OneToMany
+  //  @JoinColumn(name = "ruoli" )
+    private TipoUtenteENUM ruolo;
+
 
     public Utente(String cognome, String nome, String password, String email, String userName) {
         this.cognome = cognome;
@@ -41,7 +44,7 @@ public class Utente implements UserDetails {
         this.password = password;
         this.email = email;
         this.userName = userName;
-        this.ruolo = TipoUtenteENUM.USER;
+this.ruolo = TipoUtenteENUM.USER;
         this.avatar = "https://ui-avatars.com/api/?name=" + this.nome + "+" + this.cognome ;
     }
 
