@@ -33,7 +33,7 @@ public class UtenteService {
                 }
         );
 
-        Utente newUser = new Utente(body.ruolo() , body.cognome(), body.nome(), bcrypt.encode(body.password()), body.email(), body.userName());
+        Utente newUser = new Utente( body.cognome(), body.nome(), bcrypt.encode(body.password()), body.email(), body.userName());
         return utenteRepository.save(newUser);
     }
 
