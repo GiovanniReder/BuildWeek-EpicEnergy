@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "utenti")
@@ -53,7 +54,9 @@ public class Utente implements UserDetails  {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(this.ruoli.toString()));
+        return this.ruoli.stream()
+                .map(ruolo -> new SimpleGrantedAuthority(ruolo.getRuolo()))
+                .collect(Collectors.toList());
     }
 
     @Override

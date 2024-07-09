@@ -34,8 +34,8 @@ public class UtenteController  {
     }
 
     @GetMapping
-    // @PreAuthorize("hasRole('USER')")
-    // @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    //@PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Utente> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy){
         return  this.utenteService.getAllEvent(page, size, sortBy);
     }
