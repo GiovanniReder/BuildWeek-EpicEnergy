@@ -4,7 +4,7 @@ import giovanni.epicenergy.entities.RuoloUtente;
 import giovanni.epicenergy.exceptions.BadRequestException;
 import giovanni.epicenergy.exceptions.NotFoundException;
 import giovanni.epicenergy.payloads.ruoli.NuovoRuoloDTO;
-import giovanni.epicenergy.repositories.RuoloUtenteRepository;
+import giovanni.epicenergy.repositories.utente.RuoloUtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

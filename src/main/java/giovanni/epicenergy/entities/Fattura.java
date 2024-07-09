@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -29,12 +30,14 @@ public class Fattura {
   private long numero;
   private LocalDate data;
   private long importo;
- private TipoFatturaENUM stato;
+  @ManyToOne
+  @JoinColumn(name = "stato_fattura_ID")
+ private StatoFattura stato;
 
-  public Fattura(long numero, LocalDate data, long importo, TipoFatturaENUM stato) {
+  public Fattura(long numero, LocalDate data, long importo) {
     this.numero = numero;
     this.data = data;
     this.importo = importo;
-    this.stato = stato;
+
   }
 }

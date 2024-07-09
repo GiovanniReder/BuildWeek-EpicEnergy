@@ -1,4 +1,4 @@
-package giovanni.epicenergy.repositories;
+package giovanni.epicenergy.repositories.utente;
 
 import giovanni.epicenergy.entities.Utente;
 import org.springframework.data.jpa.repository.JpaRepository;

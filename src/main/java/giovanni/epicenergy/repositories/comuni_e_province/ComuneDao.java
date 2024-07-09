@@ -1,4 +1,4 @@
-package giovanni.epicenergy.repositories;
+package giovanni.epicenergy.repositories.comuni_e_province;
 
 import giovanni.epicenergy.entities.Comune;
 import org.springframework.data.jpa.repository.JpaRepository;

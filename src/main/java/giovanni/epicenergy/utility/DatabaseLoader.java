@@ -2,15 +2,14 @@ package giovanni.epicenergy.utility;
 
 import giovanni.epicenergy.entities.Comune;
 import giovanni.epicenergy.entities.Provincia;
-import giovanni.epicenergy.repositories.ComuneDao;
-import giovanni.epicenergy.repositories.ProvinciaDao;
+import giovanni.epicenergy.repositories.comuni_e_province.ComuneDao;
+import giovanni.epicenergy.repositories.comuni_e_province.ProvinciaDao;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.PrivateKey;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
