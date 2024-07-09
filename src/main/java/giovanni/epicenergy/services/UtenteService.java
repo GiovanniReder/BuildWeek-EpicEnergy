@@ -30,31 +30,27 @@ public class UtenteService {
         this.utenteRepository.findByEmail(body.email()).ifPresent(
                 user -> {
                     throw new BadRequestException("email già in uso");
-                }
-        );
-
-        Utente newUser = new Utente( body.cognome(), body.nome(), bcrypt.encode(body.password()), body.email(), body.userName());
+                });
+        Utente newUser = new Utente(body.cognome(), body.nome(), bcrypt.encode(body.password()), body.email(),
+                body.userName());
         return utenteRepository.save(newUser);
     }
 
-    public Utente findById(UUID utenteId){
-        return utenteRepository.findById(utenteId).orElseThrow(()-> new NotFoundException(utenteId));
+    public Utente findById(UUID utenteId) {
+        return utenteRepository.findById(utenteId).orElseThrow(() -> new NotFoundException(utenteId));
     }
-    public Utente findByMail(String email){
-        return utenteRepository.findByEmail(email).orElseThrow(()-> new NotFoundException("Utente con mail: " + email + " non trovato!"));
+
+    public Utente findByMail(String email) {
+        return utenteRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Utente con mail: " + email + " non trovato!"));
     }
 
     public String uploadAvatar(MultipartFile file) throws IOException {
         return (String) this.cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
     }
 
-    public Utente patchAvatarUtente(Utente utente , String url ){
+    public Utente patchAvatarUtente(Utente utente, String url) {
         utente.setAvatar(url);
         return utenteRepository.save(utente);
     }
 }
-
-
-
-
-
