@@ -27,7 +27,7 @@ public class ExceptionsHandler {
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorsDTO handleUnauthorized(UnauthorizedException ex) {
-        return new ErrorsDTO("Accesso negato!", LocalDateTime.now());
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 
     @ExceptionHandler(NotFoundException.class)
@@ -36,7 +36,7 @@ public class ExceptionsHandler {
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
     @ExceptionHandler(AuthorizationDeniedException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorsDTO handleAuthorizationDeniedException(AuthorizationDeniedException ex) {
         return new ErrorsDTO("Non hai accesso alla risorsa!", LocalDateTime.now());
     }
@@ -47,6 +47,5 @@ public class ExceptionsHandler {
         ex.printStackTrace();
         return new ErrorsDTO("Problema dal lato server", LocalDateTime.now());
     }
-
 
 }

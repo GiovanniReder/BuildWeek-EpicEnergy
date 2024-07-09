@@ -13,7 +13,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-
 @NoArgsConstructor
 public class Indirizzo {
     @Id

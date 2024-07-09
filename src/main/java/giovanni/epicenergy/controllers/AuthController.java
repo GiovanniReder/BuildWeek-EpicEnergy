@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-
     @Autowired
     private UtenteService utenteService;
 
@@ -44,5 +43,4 @@ public class AuthController {
         }
         return new UtenteLoginResponseDTO(this.authService.authenticateUserAndGenerateToken(body));
     }
-
 }

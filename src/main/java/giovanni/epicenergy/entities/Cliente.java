@@ -16,10 +16,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-
 @NoArgsConstructor
 public class Cliente {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private UUID id;

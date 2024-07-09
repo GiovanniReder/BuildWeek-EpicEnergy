@@ -21,14 +21,11 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @ToString
-
 @NoArgsConstructor
-
 public class Utente implements UserDetails  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private UUID id;
-
     private String userName;
     private String email;
     private String password;

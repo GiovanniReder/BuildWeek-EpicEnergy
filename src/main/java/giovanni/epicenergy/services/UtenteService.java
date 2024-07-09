@@ -68,14 +68,16 @@ public class UtenteService {
     }
 
     public Utente patchRuolo(NuovoRuoloResponseDTO body , UUID utenteId){
-      Utente found= utenteRepository.findById(utenteId).orElseThrow(()-> new NotFoundException(utenteId));
+        Utente found= utenteRepository.findById(utenteId).orElseThrow(()-> new NotFoundException(utenteId));
 
+        RuoloUtente ruoloCorrente = ruoloUtenteService.findByRuolo(body.ruolo());
         List<RuoloUtente> ruoli = new ArrayList<>(found.getRuoli());
-
+        if (ruoli.contains(ruoloCorrente)){
+            throw new BadRequestException("Ruolo già presente");
+        }
         ruoli.add(ruoloUtenteService.findByRuolo(body.ruolo()));
-          found.setRuoli(ruoli);
-          return utenteRepository.save(found);
-
+        found.setRuoli(ruoli);
+        return utenteRepository.save(found);
     }
 
     public Utente getUtenteById(UUID id) {

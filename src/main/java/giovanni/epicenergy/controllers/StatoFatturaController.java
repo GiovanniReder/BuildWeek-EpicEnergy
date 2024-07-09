@@ -35,7 +35,6 @@ public class StatoFatturaController {
     @PatchMapping("/{fatturaId}/stato")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Fattura patchStatoFattura(@RequestBody NuovaStatoFatturaDTO body , @PathVariable UUID fatturaId){
-        return
-                fatturaService.patchStatoFattura(body , fatturaId);
+        return fatturaService.patchStatoFattura(body , fatturaId);
     }
 }

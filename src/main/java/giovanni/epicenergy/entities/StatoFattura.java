@@ -14,7 +14,6 @@ import java.util.UUID;
 @Setter
 @ToString
 @NoArgsConstructor
-
 public class StatoFattura {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )

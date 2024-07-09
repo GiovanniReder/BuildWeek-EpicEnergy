@@ -8,8 +8,6 @@ public class EpicEnergyApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EpicEnergyApplication.class, args);
-
-
 	}
 
 }

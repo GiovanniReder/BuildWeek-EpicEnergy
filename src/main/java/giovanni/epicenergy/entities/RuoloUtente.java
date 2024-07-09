@@ -11,17 +11,10 @@ import java.util.*;
 @Entity
 @Table(name = "ruoli")
 @NoArgsConstructor
-
-
 public  class RuoloUtente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private UUID id;
-/*
-@ManyToOne
-@JoinColumn(name = "utente_id")
-private Utente utente;
-* */
     private String ruolo;
 
     public RuoloUtente(String ruolo) {
@@ -29,7 +22,4 @@ private Utente utente;
     }
 
     //CRAERE METODO ADDRUOLO
-
-
-
 }

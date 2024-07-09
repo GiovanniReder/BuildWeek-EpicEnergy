@@ -9,25 +9,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MyRunner implements CommandLineRunner {
-
-        @Autowired
-        private RuoloUtenteService ruoloUtenteService;
+    @Autowired
+    private RuoloUtenteService ruoloUtenteService;
 
     @Override
     public void run(String... args) throws Exception {
-       try {
+        try {
            ruoloUtenteService.save(new NuovoRuoloDTO("USER") )  ;
            ruoloUtenteService.save(new NuovoRuoloDTO("ADMIN") )  ;
         } catch(BadRequestException error){
-
-           error.printStackTrace();
+            error.printStackTrace();
        }
-
-
-
-
-
-
-
     }
 }

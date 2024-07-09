@@ -13,10 +13,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-
 @NoArgsConstructor
 public class Provincia {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private UUID id;

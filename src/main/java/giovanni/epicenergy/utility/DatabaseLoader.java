@@ -2,8 +2,8 @@ package giovanni.epicenergy.utility;
 
 import giovanni.epicenergy.entities.Comune;
 import giovanni.epicenergy.entities.Provincia;
-import giovanni.epicenergy.repositories.comuni_e_province.ComuneDao;
-import giovanni.epicenergy.repositories.comuni_e_province.ProvinciaDao;
+import giovanni.epicenergy.repositories.comuni_e_province.ComuneRepository;
+import giovanni.epicenergy.repositories.comuni_e_province.ProvinciaRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,10 +21,10 @@ public class DatabaseLoader {
    private CsvReaderService csvReaderService;
 
     @Autowired
-    private ProvinciaDao provinciaDao;
+    private ProvinciaRepository provinciaRepository;
 
     @Autowired
-    private ComuneDao comuneDao;
+    private ComuneRepository comuneRepository;
 
     @PostConstruct //Il PostConstruct  è utilizzato per specificare un metodo che deve essere eseguito dopo che un'istanza di una classe è stata costruita
     //e tutte le sue dipendenze sono state iniettate
@@ -33,8 +33,8 @@ public class DatabaseLoader {
     public void saveProvincieComuniIntoDatabase() throws Exception{
 
         //Cerchiamo nel database le provincie e i comuni già esistenti
-        List<Provincia> existingProvincia = provinciaDao.findAll();
-        List<Comune> existingComune = comuneDao.findAll();
+        List<Provincia> existingProvincia = provinciaRepository.findAll();
+        List<Comune> existingComune = comuneRepository.findAll();
 
         //Ci salviamo in una variabile i Path dei file csv (Per comodità)
         Path csvComuni = Paths.get("src/main/java/giovanni/epicenergy/csv/comuni-italiani.csv");
@@ -63,8 +63,8 @@ public class DatabaseLoader {
         newComuneSet.removeAll(existingComune);
 
         //con questa funzione ci salviamo tutti i dati all'interno del DB
-        newComuneSet.forEach(comuneDao::save);
-        newProvinciaSet.forEach(provinciaDao::save);
+        newComuneSet.forEach(comuneRepository::save);
+        newProvinciaSet.forEach(provinciaRepository::save);
 
 
 
