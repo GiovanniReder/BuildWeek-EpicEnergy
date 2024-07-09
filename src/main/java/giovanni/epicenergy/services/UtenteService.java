@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -25,6 +27,8 @@ public class UtenteService {
     private UtenteRepository utenteRepository;
     @Autowired
     private Cloudinary cloudinary;
+    @Autowired
+    private RuoloUtenteService ruoloUtenteService;
 
     public Utente save(NuovoUtenteDTO body) {
         this.utenteRepository.findByEmail(body.email()).ifPresent(
@@ -33,6 +37,7 @@ public class UtenteService {
                 });
         Utente newUser = new Utente(body.cognome(), body.nome(), bcrypt.encode(body.password()), body.email(),
                 body.userName());
+        newUser.setRuoli(new ArrayList<>(Arrays.asList(ruoloUtenteService.findByRuolo("USER"))));
         return utenteRepository.save(newUser);
     }
 

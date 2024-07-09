@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -33,9 +34,10 @@ public class Utente implements UserDetails  {
     private String nome;
     private String cognome;
     private String avatar;
-  //  @OneToMany
-  //  @JoinColumn(name = "ruoli" )
-    private TipoUtenteENUM ruolo;
+    @OneToMany
+
+
+    private List<RuoloUtente> ruoli= new ArrayList<>();
 
 
     public Utente(String cognome, String nome, String password, String email, String userName) {
@@ -44,13 +46,13 @@ public class Utente implements UserDetails  {
         this.password = password;
         this.email = email;
         this.userName = userName;
-this.ruolo = TipoUtenteENUM.USER;
+
         this.avatar = "https://ui-avatars.com/api/?name=" + this.nome + "+" + this.cognome ;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(this.ruolo.name()));
+        return List.of(new SimpleGrantedAuthority(this.ruoli.toString()));
     }
 
     @Override

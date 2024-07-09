@@ -17,12 +17,15 @@ public  class RuoloUtente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private UUID id;
-
-
+/*
+@ManyToOne
+@JoinColumn(name = "utente_id")
+private Utente utente;
+* */
     private String ruolo;
 
     public RuoloUtente(String ruolo) {
-        this.ruolo = "USER";
+        this.ruolo = ruolo;
     }
 
     //CRAERE METODO ADDRUOLO
