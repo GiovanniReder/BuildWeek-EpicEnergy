@@ -13,6 +13,10 @@ import giovanni.epicenergy.repositories.UtenteRepository;
 import jakarta.transaction.Transactional;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -67,6 +71,7 @@ public class UtenteService {
 
     public Utente patchRuolo(NuovoRuoloResponseDTO body , UUID utenteId){
       Utente found= utenteRepository.findById(utenteId).orElseThrow(()-> new NotFoundException(utenteId));
+
         List<RuoloUtente> ruoli = new ArrayList<>(found.getRuoli());
 
         ruoli.add(ruoloUtenteService.findByRuolo(body.ruolo()));
@@ -77,6 +82,12 @@ public class UtenteService {
 
     public Utente getUtenteById(UUID id) {
         return utenteRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+    }
+
+    public Page<Utente> getAllEvent(int pageNumber, int pageSize, String sortBy){
+        if(pageSize > 50) pageSize = 50;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        return this.utenteRepository.findAll(pageable);
     }
 
 
