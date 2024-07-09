@@ -22,6 +22,7 @@ public class UtenteController  {
     return this.utenteService.patchAvatarUtente(currentUser , this.utenteService.uploadAvatar(image));
 } //ricava utente corrente
     @PatchMapping("/{userId}/ruolo")
+    // DA SISTEMARE LA VALIDAZION E RESPONSE
     public Utente uploadRuolo( @PathVariable UUID userId , @RequestBody NuovoRuoloResponseDTO ruolo)
     {
         return utenteService.patchRuolo(ruolo , userId);

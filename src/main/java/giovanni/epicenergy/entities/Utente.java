@@ -35,7 +35,9 @@ public class Utente implements UserDetails  {
     private String cognome;
     private String avatar;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "utenti_ruoli",
+    joinColumns = @JoinColumn(name = "utenti_id") , inverseJoinColumns =@JoinColumn(name = "ruoli_id"))
     private List<RuoloUtente> ruoli= new ArrayList<>();
 
 
