@@ -12,7 +12,6 @@ import java.util.UUID;
 @Table(name = "indirizzi")
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 public class Indirizzo {
     @Id
@@ -34,5 +33,17 @@ public class Indirizzo {
         this.località = località;
         this.civico = civico;
         this.via = via;
+    }
+
+    @Override
+    public String toString() {
+        return "Indirizzo{" +
+                "id=" + id +
+                ", via='" + via + '\'' +
+                ", civico=" + civico +
+                ", località='" + località + '\'' +
+                ", cap=" + cap +
+                ", comune='" + comune + '\'' +
+                '}';
     }
 }

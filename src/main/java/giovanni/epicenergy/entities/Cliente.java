@@ -1,5 +1,6 @@
 package giovanni.epicenergy.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giovanni.epicenergy.enums.RagioneSocialeENUM;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,8 +17,9 @@ import java.util.UUID;
 @Table(name = "clienti")
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
+@ToString
+@JsonIgnoreProperties(value = { "sedi" })
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
@@ -46,11 +49,12 @@ public class Cliente {
     @OneToMany(mappedBy = "indirizzoCliente")
     @Column(name = "sedi")
     private List<Indirizzo> sedi;
+
     @OneToMany(mappedBy = "clienti")
     @Column(name = "lista_fatture")
     private List<Fattura> listaFatture;
 
-    public Cliente(RagioneSocialeENUM ragioneSociale, long partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, long fatturatoAnnuale, String pec, String emailContatto, String nomeContatto, long telefonoContatto, String logoAziendale, List<Fattura> listaFatture, List<Indirizzo> sedi) {
+    public Cliente(RagioneSocialeENUM ragioneSociale, long partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, long fatturatoAnnuale, String pec, String emailContatto, String nomeContatto, long telefonoContatto, String logoAziendale) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.email = email;
@@ -62,7 +66,10 @@ public class Cliente {
         this.nomeContatto = nomeContatto;
         this.telefonoContatto = telefonoContatto;
         this.logoAziendale = logoAziendale;
-        this.listaFatture = listaFatture;
-        this.sedi = sedi;
+        this.sedi = new ArrayList<>();
+    }
+
+    public void addSede(Indirizzo indirizzo){
+        sedi.add(indirizzo);
     }
 }
