@@ -17,9 +17,8 @@ public record NuovoClienteDTO(
         long telefonoContatto,
         String logoAziendale,
         String via,
-        long civico,
-        String località,
-        long cap,
+        String civico,
+        String cap,
         String comune
         ) {
 }

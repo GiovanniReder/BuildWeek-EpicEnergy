@@ -12,11 +12,8 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    @PostMapping
+    @PostMapping("/register")
     public Cliente save(@RequestBody NuovoClienteDTO body){
         return clienteService.save(body);
     }
-
-//    @PatchMapping("/fattura")
-//    public Cliente addFattura(@RequestBody )
 }

@@ -22,15 +22,14 @@ public class Indirizzo {
     private Cliente indirizzoCliente;
 
     private String via;
-    private long civico;
+    private String civico;
     private String località;
-    private long cap;
+    private String cap;
     private String comune;
 
-    public Indirizzo(String comune, long cap, String località, long civico, String via) {
+    public Indirizzo(String comune, String cap, String civico, String via) {
         this.comune = comune;
         this.cap = cap;
-        this.località = località;
         this.civico = civico;
         this.via = via;
     }
