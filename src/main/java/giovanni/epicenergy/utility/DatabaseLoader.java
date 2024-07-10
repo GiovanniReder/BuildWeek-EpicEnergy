@@ -63,8 +63,8 @@ public class DatabaseLoader {
         newComuneSet.removeAll(existingComune);
 
         //con questa funzione ci salviamo tutti i dati all'interno del DB
-        newComuneSet.forEach(comuneRepository::save);
-        newProvinciaSet.forEach(provinciaRepository::save);
+        //newComuneSet.forEach(comuneRepository::save);
+        //newProvinciaSet.forEach(provinciaRepository::save);
 
 
 
