@@ -49,6 +49,10 @@ public class Utente implements UserDetails  {
         this.avatar = "https://ui-avatars.com/api/?name=" + this.nome + "+" + this.cognome ;
     }
 
+    public void addRuolo(RuoloUtente ruoloUtente){
+        ruoli.add(ruoloUtente);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.ruoli.stream()

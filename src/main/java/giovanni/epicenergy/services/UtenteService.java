@@ -71,12 +71,10 @@ public class UtenteService {
         Utente found= utenteRepository.findById(utenteId).orElseThrow(()-> new NotFoundException(utenteId));
 
         RuoloUtente ruoloCorrente = ruoloUtenteService.findByRuolo(body.ruolo());
-        List<RuoloUtente> ruoli = new ArrayList<>(found.getRuoli());
-        if (ruoli.contains(ruoloCorrente)){
+        if (found.getRuoli().contains(ruoloCorrente)){
             throw new BadRequestException("Ruolo già presente");
         }
-        ruoli.add(ruoloUtenteService.findByRuolo(body.ruolo()));
-        found.setRuoli(ruoli);
+        found.addRuolo(ruoloCorrente);
         return utenteRepository.save(found);
     }
 
