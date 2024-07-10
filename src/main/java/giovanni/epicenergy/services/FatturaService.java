@@ -16,9 +16,11 @@ import java.util.UUID;
 @Service
 public class FatturaService {
     @Autowired
-        private FatturaRepository fatturaRepository;
+    private FatturaRepository fatturaRepository;
     @Autowired
     private StatoFatturaRepository statoFatturaRepository;
+    @Autowired
+    private ClienteService clienteService;
 
     public Fattura save(NuovaFatturaDTO body){
       if (this.fatturaRepository.findByNumero(body.numero()).isPresent()){
@@ -26,6 +28,7 @@ public class FatturaService {
       }
       Fattura nuova= new Fattura(body.numero(), body.data(), body.importo());
       nuova.setStato(statoFatturaRepository.findByStato("DA_PAGARE").orElseThrow(()-> new BadRequestException("Stato non trovato")));
+      nuova.setClienti(clienteService.findById(body.clienteId()));
       return fatturaRepository.save(nuova);
     }
 

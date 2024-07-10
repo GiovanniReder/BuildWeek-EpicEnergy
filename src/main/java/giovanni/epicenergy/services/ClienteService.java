@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ClienteService {
@@ -30,5 +31,9 @@ public class ClienteService {
         newCliente.addSede(indirizzo);
         clienteRepository.save(newCliente);
         return newCliente;
+    }
+
+    public Cliente findById(UUID clienteId){
+        return clienteRepository.findById(clienteId).orElseThrow(() -> new NotFoundException(clienteId));
     }
 }

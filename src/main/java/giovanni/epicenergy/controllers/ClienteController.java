@@ -4,10 +4,7 @@ import giovanni.epicenergy.entities.Cliente;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
 import giovanni.epicenergy.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/clienti")
@@ -19,4 +16,7 @@ public class ClienteController {
     public Cliente save(@RequestBody NuovoClienteDTO body){
         return clienteService.save(body);
     }
+
+//    @PatchMapping("/fattura")
+//    public Cliente addFattura(@RequestBody )
 }

@@ -36,4 +36,6 @@ public class Fattura {
     this.data = data;
     this.importo = importo;
   }
+
+
 }
