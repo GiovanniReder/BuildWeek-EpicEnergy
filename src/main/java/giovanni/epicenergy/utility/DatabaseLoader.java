@@ -4,6 +4,8 @@ import giovanni.epicenergy.entities.Comune;
 import giovanni.epicenergy.entities.Provincia;
 import giovanni.epicenergy.repositories.comuni_e_province.ComuneRepository;
 import giovanni.epicenergy.repositories.comuni_e_province.ProvinciaRepository;
+import giovanni.epicenergy.services.ComuneService;
+import giovanni.epicenergy.services.ProvinciaService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,7 +27,13 @@ public class DatabaseLoader {
     private ProvinciaRepository provinciaRepository;
 
     @Autowired
+    private ProvinciaService provinciaService;
+
+    @Autowired
     private ComuneRepository comuneRepository;
+
+    @Autowired
+    private ComuneService comuneService;
 
     @PostConstruct //Il PostConstruct  è utilizzato per specificare un metodo che deve essere eseguito dopo che un'istanza di una classe è stata costruita
     //e tutte le sue dipendenze sono state iniettate
@@ -45,7 +54,18 @@ public class DatabaseLoader {
         List<String[]> csvComune = csvReaderService.readCsv(csvComuni);
 
         //Funzioni che fanno il map  sulla lista di stringhe che ho creato sopra e creano delle classi Comune e Provincia
+        HashSet<String> listaErrori = new HashSet<>();
+
         List<Comune> comuni = csvComune.stream().map(element ->{
+            Comune newComune = new Comune();
+            try{
+                newComune.setNomeComune(element[2]);
+                newComune.setCodiceProvincia(element[0]);
+                newComune.setCap(element[1]);
+                newComune.setNomeProvincia(provinciaService.findByProvincia(element[3]).getProvincia());
+            }catch (Exception error){
+                listaErrori.add(element[3]);
+            }
             Comune comune = new Comune(element[0], element[3], element[1], element[2]);
             return comune;
         }).collect(Collectors.toList());
@@ -63,13 +83,34 @@ public class DatabaseLoader {
         newComuneSet.removeAll(existingComune);
 
         //con questa funzione ci salviamo tutti i dati all'interno del DB
-        //newComuneSet.forEach(comuneRepository::save);
-        //newProvinciaSet.forEach(provinciaRepository::save);
+
+        newProvinciaSet.add(new Provincia("VCO", "Verbano-Cusio-Ossola", "Piemonte"));
+        newProvinciaSet.add(new Provincia("SU", "Sud Sardegna", "Sardegna"));
+        for (Provincia provincia: newProvinciaSet){
+            if (Objects.equals(provincia.getProvincia(), "Monza-Brianza")) provincia.setProvincia("Monza e della Brianza");
+            if (Objects.equals(provincia.getProvincia(), "Vibo-Valentia")) provincia.setProvincia("Vibo Valentia");
+            if (Objects.equals(provincia.getProvincia(), "La-Spezia")) provincia.setProvincia("La Spezia");
+            if (Objects.equals(provincia.getProvincia(), "Aosta")) provincia.setProvincia("Valle d'Aosta/Vallée d'Aoste");
+            if (Objects.equals(provincia.getProvincia(), "Ascoli-Piceno")) provincia.setProvincia("Ascoli Piceno");
+            if (Objects.equals(provincia.getProvincia(), "Bolzano")) provincia.setProvincia("Bolzano/Bozen");
+            if (Objects.equals(provincia.getProvincia(), "Pesaro-Urbino")) provincia.setProvincia("Pesaro e Urbino");
+            if (Objects.equals(provincia.getProvincia(), "Reggio-Calabria")) provincia.setProvincia("Reggio Calabria");
+            if (Objects.equals(provincia.getProvincia(), "Forli-Cesena")) provincia.setProvincia("Forlì-Cesena");
+            if (Objects.equals(provincia.getProvincia(), "Reggio-Emilia")) provincia.setProvincia("Reggio nell'Emilia");
+            //provinciaRepository.save(provincia);   // solo prima run per inserire i dati nel db
+        }
+
+        listaErrori.forEach(System.out::println);
 
 
-
-
-        //TODO Controllo per non far riempire il db con gli stessi dati, sia su comuni che su
+        for (Comune comune: newComuneSet){
+            for (Provincia provincia: newProvinciaSet){
+                if (comune.getNomeProvincia().indexOf(provincia.getProvincia()) == 0){
+                    comune.setProvincia(provinciaService.findByProvincia(comune.getNomeProvincia()));
+                    //comuneRepository.save(comune);  // solo prima run per inserire i dati nel db
+                }
+            }
+        }
 
     }
 }

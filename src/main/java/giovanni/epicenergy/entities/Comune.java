@@ -26,6 +26,10 @@ public class Comune {
     @Column(name = "nome_comune")
     private String nomeComune;
 
+    @ManyToOne
+    @JoinColumn(name = "provincia_id")
+    private Provincia provincia;
+
     public Comune(String codiceProvincia, String nomeProvincia, String cap, String nomeComune) {
         this.codiceProvincia = codiceProvincia;
         this.nomeProvincia = nomeProvincia;
