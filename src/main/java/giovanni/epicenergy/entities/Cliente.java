@@ -19,7 +19,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @ToString
-@JsonIgnoreProperties(value = { "sedi", "listaFatture" })
+@JsonIgnoreProperties(value = { "sedi", "listaFatture", "id" })
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
