@@ -56,18 +56,25 @@ public class DatabaseLoader {
         //Funzioni che fanno il map  sulla lista di stringhe che ho creato sopra e creano delle classi Comune e Provincia
         HashSet<String> listaErrori = new HashSet<>();
 
+        final int[] n = {1};
         List<Comune> comuni = csvComune.stream().map(element ->{
             Comune newComune = new Comune();
             try{
                 newComune.setNomeComune(element[2]);
-                newComune.setCodiceProvincia(element[0]);
-                newComune.setCap(element[1]);
+                newComune.setCap(element[0]+element[1]);
                 newComune.setNomeProvincia(provinciaService.findByProvincia(element[3]).getProvincia());
             }catch (Exception error){
                 listaErrori.add(element[3]);
             }
-            Comune comune = new Comune(element[0], element[3], element[1], element[2]);
-            return comune;
+
+            if (Objects.equals(element[1], "#RIF!")){
+                String formattedNumber = String.format("%03d", n[0]);
+                Comune comune = new Comune(element[3], element[2], element[0] + formattedNumber);
+                n[0]++;
+                return comune;
+            }else{
+                return new Comune(element[3], element[2], element[0] + element[1]);
+            }
         }).collect(Collectors.toList());
 
         List<Provincia> provincie = csvProvincia.stream().map(element ->{
@@ -101,7 +108,6 @@ public class DatabaseLoader {
         }
 
         listaErrori.forEach(System.out::println);
-
 
         for (Comune comune: newComuneSet){
             for (Provincia provincia: newProvinciaSet){

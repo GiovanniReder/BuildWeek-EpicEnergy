@@ -18,8 +18,6 @@ public class Comune {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private UUID id;
-    @Column(name = "codice_provincia")
-    private String codiceProvincia;
     @Column(name = "nome_provincia")
     private String nomeProvincia;
     private String cap;
@@ -30,8 +28,7 @@ public class Comune {
     @JoinColumn(name = "provincia_id")
     private Provincia provincia;
 
-    public Comune(String codiceProvincia, String nomeProvincia, String cap, String nomeComune) {
-        this.codiceProvincia = codiceProvincia;
+    public Comune(String nomeProvincia, String nomeComune, String cap) {
         this.nomeProvincia = nomeProvincia;
         this.cap = cap;
         this.nomeComune = nomeComune;
