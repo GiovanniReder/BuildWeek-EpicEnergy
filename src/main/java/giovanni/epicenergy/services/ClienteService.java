@@ -156,8 +156,14 @@ public class ClienteService {
         clienteRepository.delete(deleteCliente);
     }
 
-    public List<Cliente> filterByFatturatoAnnuale (FatturatoDTO range){
-        return clienteRepository.filterByFatturato(range.rangeOne(), range.rangeTwo());
+//    public List<Cliente> filterByFatturatoAnnuale (FatturatoDTO range){
+//        return clienteRepository.filterByFatturato(range.rangeOne(), range.rangeTwo());
+//    }
+
+    public Page<Cliente> filterByFatturatoAnnuale(FatturatoDTO range, int pageNumber, int pageSize, String sortBy) {
+        if(pageSize > 20) pageSize = 20;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        return clienteRepository.filterByFatturato(range.rangeOne(), range.rangeTwo(), pageable);
     }
 
 

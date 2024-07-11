@@ -105,10 +105,21 @@ public class ClienteController {
         return this.clienteService.getAll(page, size, sortBy);
     }
 
+    /*
     @GetMapping("/filter/fatturatoAnnuale")
     public List<Cliente> filterByFatturatoAnnuale(@RequestBody FatturatoDTO body){
         return this.clienteService.filterByFatturatoAnnuale(body);
     }
+    *  */
+    @GetMapping("/filter/fatturatoAnnuale")
+    public Page<Cliente> filterByFatturatoAnnuale(@RequestBody FatturatoDTO body,
+                                                  @RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "10") int size,
+                                                  @RequestParam(defaultValue = "fatturatoAnnuale") String  sortBy) {
+        return this.clienteService.filterByFatturatoAnnuale(body, page, size, sortBy);
+    }
+
+
 
 
 
