@@ -1,6 +1,5 @@
 package giovanni.epicenergy.services;
 
-import giovanni.epicenergy.controllers.ClienteController;
 import giovanni.epicenergy.entities.Cliente;
 import giovanni.epicenergy.entities.Comune;
 import giovanni.epicenergy.entities.Indirizzo;
@@ -11,7 +10,6 @@ import giovanni.epicenergy.payloads.clienti.ClienteFatturaDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
 import giovanni.epicenergy.repositories.ClienteRepository;
 import giovanni.epicenergy.repositories.IndirizzoRepository;
-import giovanni.epicenergy.repositories.comuni_e_province.ComuneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,8 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service

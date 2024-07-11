@@ -1,11 +1,9 @@
 package giovanni.epicenergy.controllers;
 
 import giovanni.epicenergy.entities.Cliente;
-import giovanni.epicenergy.entities.Indirizzo;
 import giovanni.epicenergy.payloads.NuovoIndirizzoDTO;
 import giovanni.epicenergy.payloads.clienti.ClienteFatturaDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
-import giovanni.epicenergy.repositories.IndirizzoRepository;
 import giovanni.epicenergy.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
