@@ -24,12 +24,11 @@ public class ClienteController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente save(@RequestBody @Validated NuovoClienteDTO body, BindingResult validationResult ){
-        if (validationResult.hasErrors()) {
-            System.out.println(validationResult.getAllErrors());
-            throw new BadRequestException(validationResult.getAllErrors());
+    public Cliente save(@RequestBody @Validated NuovoClienteDTO body, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getAllErrors());
+            throw new BadRequestException(bindingResult.getAllErrors());
         }
-
         return clienteService.save(body);
     }
 
@@ -59,8 +58,38 @@ public class ClienteController {
         return this.clienteService.getAll(page, size, sortBy);
     }
 
+<<<<<<< HEAD
     @GetMapping("/fatturati")
     public Page<ClienteResponseDTO> getAllFatturati(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy){
+=======
+    @GetMapping("/provincia")
+    public Page<ClienteResponseDTO> getAllProvinciaSedeLegale(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "sedi.località") String sortBy){
+>>>>>>> parent of 59bfba9 (Merge branch 'Nikita' into develop2)
         return this.clienteService.getAllFatturati(page, size, sortBy);
     }
+
+    @GetMapping("/fatturati")
+    public Page<Cliente> getAllByFatturato(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "fatturatoAnnuale") String sortBy){
+        return this.clienteService.getAll(page, size, sortBy);
+    }
+
+    @GetMapping("/nomi")
+    public Page<Cliente> getAllByNome(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "nomeContatto") String sortBy){
+        return this.clienteService.getAll(page, size, sortBy);
+    }
+
+    @GetMapping("/dataInserimento")
+    public Page<Cliente> getAllByDataInserimento(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataInserimento") String sortBy){
+        return this.clienteService.getAll(page, size, sortBy);
+    }
+
+    @GetMapping("/dataUltimoContatto")
+    public Page<Cliente> getAllByDataUltimoContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataUltimoContatto") String sortBy){
+        return this.clienteService.getAll(page, size, sortBy);
+    }
+
+//    @GetMapping("/provincia")
+//    public Page<Cliente> getAllProvinciaSedeLegale(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "sedi") String sortBy){
+//        return this.clienteService.getAll(page, size, sortBy);
+//    }
 }
