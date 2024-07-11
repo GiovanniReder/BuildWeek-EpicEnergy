@@ -83,7 +83,7 @@ public class ClienteService {
 
     public Indirizzo addIndirizzo(UUID clienteId, NuovoIndirizzoDTO body){
         Cliente cliente = this.findById(clienteId);
-        if (cliente.getSedi().size() > 2){
+        if (cliente.getSedi().size() > 1){
             throw new BadRequestException("Si può avere massimo due indirizzi");
         }
         Indirizzo indirizzo = new Indirizzo(body.comune(), body.cap(), body.civico(), body.via());
@@ -112,7 +112,7 @@ public class ClienteService {
          return indirizzo;
     }
 
-    public ClienteResponseDTO updateIndirizzoCliente(UUID clienteId , NuovoClienteDTO body){
+    public ClienteResponseDTO updateCliente(UUID clienteId , NuovoClienteDTO body){
    Cliente found= this.findById(clienteId);
         found.setRagioneSociale(body.ragioneSociale());
         found.setPartitaIva(body.partitaIva());
@@ -154,5 +154,16 @@ public class ClienteService {
         Indirizzo indirizzo = indirizzoRepository.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId) );
         indirizzoRepository.delete(indirizzo);
         clienteRepository.save(indirizzo.getIndirizzoCliente());
+    }
+    public void deleteCliente(UUID clienteId){
+        Cliente deleteCliente = this.findById(clienteId);
+        for (int i = 0; i < deleteCliente.getSedi().size(); i++) {
+        indirizzoRepository.delete(deleteCliente.getSedi().getFirst());
+        }
+        clienteRepository.delete(deleteCliente);
+
+
+
+
     }
 }
