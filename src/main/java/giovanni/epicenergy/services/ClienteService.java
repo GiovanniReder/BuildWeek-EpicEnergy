@@ -8,6 +8,7 @@ import giovanni.epicenergy.exceptions.NotFoundException;
 import giovanni.epicenergy.payloads.NuovoIndirizzoDTO;
 import giovanni.epicenergy.payloads.clienti.ClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
+import giovanni.epicenergy.payloads.clienti.NuovoClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoIndirizzoResponseDTO;
 import giovanni.epicenergy.repositories.ClienteRepository;
 import giovanni.epicenergy.repositories.IndirizzoRepository;
@@ -109,6 +110,43 @@ public class ClienteService {
         indirizzoRepository.save(indirizzo);
          clienteRepository.save(indirizzo.getIndirizzoCliente());
          return indirizzo;
+    }
+
+    public ClienteResponseDTO updateIndirizzoCliente(UUID clienteId , NuovoClienteDTO body){
+   Cliente found= this.findById(clienteId);
+        found.setRagioneSociale(body.ragioneSociale());
+        found.setPartitaIva(body.partitaIva());
+        found.setEmail(body.email());
+        found.setDataInserimento(body.dataInserimento());
+        found.setDataUltimoContatto(body.dataUltimoContatto());
+        found.setFatturatoAnnuale(body.fatturatoAnnuale());
+        found.setPec(body.pec());
+        found.setEmailContatto(body.emailContatto());
+        found.setNomeContatto(body.nomeContatto());
+        found.setTelefonoContatto(body.telefonoContatto());
+        found.setLogoAziendale(body.logoAziendale());
+
+        clienteRepository.save(found);
+        return
+                new ClienteResponseDTO(
+               found.getRagioneSociale(),
+               found.getPartitaIva(),
+               found.getEmail(),
+               found.getDataInserimento(),
+               found.getDataUltimoContatto(),
+               found.getFatturatoAnnuale(),
+               found.getPec(),
+               found.getEmailContatto(),
+               found.getNomeContatto(),
+               found.getTelefonoContatto(),
+               found.getLogoAziendale(),
+               found.getSedi().getFirst().getVia(),
+               found.getSedi().getFirst().getCivico(),
+               found.getSedi().getFirst().getCap(),
+               found.getSedi().getFirst().getComune(),
+               found.getSedi().getFirst().getLocalità()
+
+                );
     }
 
     public void deleteIndirizzo( UUID indirizzoId){

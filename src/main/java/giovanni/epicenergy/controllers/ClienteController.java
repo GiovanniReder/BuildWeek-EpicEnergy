@@ -49,6 +49,22 @@ public class ClienteController {
         return clienteService.updateIndirizzo(indirizzoId,body);
     }
 
+
+
+    @PutMapping("/{clienteId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ClienteResponseDTO updateIndirizzo( @PathVariable UUID clienteId, @RequestBody NuovoIndirizzoDTO body){
+
+        return clienteService.updateIndirizzo(clienteId,body);
+    }
+
+    @DeleteMapping("/{indirizzoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void deleteIndirizzo( @PathVariable UUID indirizzoId){
+        clienteService.deleteIndirizzo(indirizzoId);
+    }
+
     @DeleteMapping("/{indirizzoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('ADMIN')")
