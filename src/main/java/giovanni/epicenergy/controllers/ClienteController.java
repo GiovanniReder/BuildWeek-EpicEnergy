@@ -8,6 +8,7 @@ import giovanni.epicenergy.payloads.clienti.ClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoIndirizzoResponseDTO;
+import giovanni.epicenergy.payloads.filtri.DataInserimentoDTO;
 import giovanni.epicenergy.payloads.filtri.FatturatoDTO;
 import giovanni.epicenergy.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,6 +118,14 @@ public class ClienteController {
                                                   @RequestParam(defaultValue = "10") int size,
                                                   @RequestParam(defaultValue = "fatturatoAnnuale") String  sortBy) {
         return this.clienteService.filterByFatturatoAnnuale(body, page, size, sortBy);
+    }
+
+    @GetMapping("/filter/dataInserimento")
+    public Page<Cliente> filterByDataInserimento(@RequestBody DataInserimentoDTO body,
+                                                  @RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "10") int size,
+                                                  @RequestParam(defaultValue = "dataInserimento") String  sortBy) {
+        return this.clienteService.filterByDataInserimento(body, page, size, sortBy);
     }
 
 
