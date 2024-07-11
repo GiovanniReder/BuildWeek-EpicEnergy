@@ -1,17 +1,15 @@
 package giovanni.epicenergy.services;
 
-import giovanni.epicenergy.controllers.ClienteController;
 import giovanni.epicenergy.entities.Cliente;
 import giovanni.epicenergy.entities.Comune;
 import giovanni.epicenergy.entities.Indirizzo;
 import giovanni.epicenergy.exceptions.BadRequestException;
 import giovanni.epicenergy.exceptions.NotFoundException;
 import giovanni.epicenergy.payloads.NuovoIndirizzoDTO;
-import giovanni.epicenergy.payloads.clienti.ClienteFatturaDTO;
+import giovanni.epicenergy.payloads.clienti.ClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
 import giovanni.epicenergy.repositories.ClienteRepository;
 import giovanni.epicenergy.repositories.IndirizzoRepository;
-import giovanni.epicenergy.repositories.comuni_e_province.ComuneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,8 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -57,10 +53,27 @@ public class ClienteService {
         return this.clienteRepository.findAll(pageable);
     }
 
-    public Page<ClienteFatturaDTO> getAllFatturati(int pageNumber, int pageSize, String sortBy){
+    public Page<NuovoClienteDTO> getAllFatturati(int pageNumber, int pageSize, String sortBy){
         if(pageSize > 20) pageSize = 20;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return this.clienteRepository.findAll(pageable).map(cliente -> new ClienteFatturaDTO(cliente.getFatturatoAnnuale()));
+        return this.clienteRepository.findAll(pageable).map((cliente) -> new NuovoClienteDTO(
+                cliente.getRagioneSociale(),
+                cliente.getPartitaIva(),
+                cliente.getEmail(),
+                cliente.getDataInserimento(),
+                cliente.getDataUltimoContatto(),
+                cliente.getFatturatoAnnuale(),
+                cliente.getPec(),
+                cliente.getEmailContatto(),
+                cliente.getNomeContatto(),
+                cliente.getTelefonoContatto(),
+                cliente.getLogoAziendale(),
+                cliente.getSedi().getFirst().getVia(),
+                cliente.getSedi().getFirst().getCivico(),
+                cliente.getSedi().getFirst().getCap(),
+                cliente.getSedi().getFirst().getComune()
+                //comuneService.findComuneByCapAndName(cliente.getSedi().getFirst().getCap(),cliente.getSedi().getFirst().getComune()).getProvincia().getProvincia()
+                ));
     }
 
     public Cliente addIndirizzo(UUID clienteId, NuovoIndirizzoDTO body){
