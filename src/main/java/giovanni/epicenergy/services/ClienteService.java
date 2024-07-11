@@ -8,6 +8,7 @@ import giovanni.epicenergy.exceptions.NotFoundException;
 import giovanni.epicenergy.payloads.NuovoIndirizzoDTO;
 import giovanni.epicenergy.payloads.clienti.ClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
+import giovanni.epicenergy.payloads.clienti.NuovoIndirizzoResponseDTO;
 import giovanni.epicenergy.repositories.ClienteRepository;
 import giovanni.epicenergy.repositories.IndirizzoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +47,17 @@ public class ClienteService {
     public Cliente findById(UUID clienteId){
         return clienteRepository.findById(clienteId).orElseThrow(() -> new NotFoundException(clienteId));
     }
-
+/*
     public Page<Cliente> getAll(int pageNumber, int pageSize, String sortBy){
         if(pageSize > 20) pageSize = 20;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return this.clienteRepository.findAll(pageable);
     }
+* */
 
-    public Page<ClienteResponseDTO> getAllFatturati(int pageNumber, int pageSize, String sortBy){
+
+
+    public Page<ClienteResponseDTO> getAll(int pageNumber, int pageSize, String sortBy){
         if(pageSize > 20) pageSize = 20;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return this.clienteRepository.findAll(pageable).map((cliente) -> new ClienteResponseDTO(
@@ -76,7 +80,7 @@ public class ClienteService {
                 ));
     }
 
-    public Cliente addIndirizzo(UUID clienteId, NuovoIndirizzoDTO body){
+    public Indirizzo addIndirizzo(UUID clienteId, NuovoIndirizzoDTO body){
         Cliente cliente = this.findById(clienteId);
         if (cliente.getSedi().size() > 2){
             throw new BadRequestException("Si può avere massimo due indirizzi");
@@ -87,26 +91,30 @@ public class ClienteService {
         indirizzo.setIndirizzoCliente(cliente);
         indirizzoRepository.save(indirizzo);
         cliente.addSede(indirizzo);
-        return clienteRepository.save(cliente);
+
+         clienteRepository.save(cliente);
+         return indirizzo;
     }
 
-    public Cliente updateIndirizzo(UUID clienteId, UUID indirizzoId, NuovoIndirizzoDTO body){
-        Cliente cliente = this.findById(clienteId);
+    public Indirizzo updateIndirizzo( UUID indirizzoId, NuovoIndirizzoDTO body){
+        //Cliente cliente = this.findById(clienteId);
         Indirizzo indirizzo = indirizzoRepository.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId) );
         indirizzo.setVia(body.via());
         indirizzo.setCap(body.cap());
         indirizzo.setComune(body.comune());
         indirizzo.setCivico(body.civico());
+
         Comune comune = comuneService.findComuneByCapAndName(String.valueOf(body.cap()), body.comune());
         indirizzo.setLocalità(body.cap() + ", " + body.comune() + ", " + comune.getProvincia().getSigla());
         indirizzoRepository.save(indirizzo);
-        return clienteRepository.save(cliente);
+         clienteRepository.save(indirizzo.getIndirizzoCliente());
+         return indirizzo;
     }
 
-    public void deleteIndirizzo(UUID clienteId, UUID indirizzoId){
-        Cliente cliente = this.findById(clienteId);
+    public void deleteIndirizzo( UUID indirizzoId){
+
         Indirizzo indirizzo = indirizzoRepository.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId) );
         indirizzoRepository.delete(indirizzo);
-        clienteRepository.save(cliente);
+        clienteRepository.save(indirizzo.getIndirizzoCliente());
     }
 }
