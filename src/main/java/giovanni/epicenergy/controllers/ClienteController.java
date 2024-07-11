@@ -3,7 +3,7 @@ package giovanni.epicenergy.controllers;
 import giovanni.epicenergy.entities.Cliente;
 import giovanni.epicenergy.exceptions.BadRequestException;
 import giovanni.epicenergy.payloads.NuovoIndirizzoDTO;
-import giovanni.epicenergy.payloads.clienti.ClienteFatturaDTO;
+import giovanni.epicenergy.payloads.clienti.ClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
 import giovanni.epicenergy.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +60,7 @@ public class ClienteController {
     }
 
     @GetMapping("/fatturati")
-    public Page<ClienteFatturaDTO> getAllFatturati(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy){
+    public Page<ClienteResponseDTO> getAllFatturati(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy){
         return this.clienteService.getAllFatturati(page, size, sortBy);
     }
 }
