@@ -2,6 +2,7 @@ package giovanni.epicenergy.services;
 
 import giovanni.epicenergy.entities.Cliente;
 import giovanni.epicenergy.entities.Comune;
+import giovanni.epicenergy.entities.Fattura;
 import giovanni.epicenergy.entities.Indirizzo;
 import giovanni.epicenergy.exceptions.BadRequestException;
 import giovanni.epicenergy.exceptions.NotFoundException;
@@ -187,6 +188,12 @@ public class ClienteService {
         return clienteRepository.filterByNomeContatto(name.partialName(), pageable);
     }
 
+    //SERVICE DELLE FATTURE
+    public Page<Fattura> filterFattureByCliente(UUID clienteId, int pageNumber, int pageSize, String sortBy){
+        if(pageSize > 20) pageSize = 20;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        return clienteRepository.filterFattureByCliente(clienteId, pageable);
+    }
 
 
 

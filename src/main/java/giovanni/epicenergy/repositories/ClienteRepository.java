@@ -1,6 +1,7 @@
 package giovanni.epicenergy.repositories;
 
 import giovanni.epicenergy.entities.Cliente;
+import giovanni.epicenergy.entities.Fattura;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,6 +34,13 @@ public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
     @Query("SELECT c FROM Cliente c WHERE c.nomeContatto ILIKE %:partialName%")
     Page<Cliente> filterByNomeContatto(
             String partialName,
+            Pageable pageable
+    );
+
+
+    @Query("SELECT f FROM Fattura f WHERE f.clienti = :clienteId")
+    Page<Fattura> filterFattureByCliente(
+            UUID clienteId,
             Pageable pageable
     );
 

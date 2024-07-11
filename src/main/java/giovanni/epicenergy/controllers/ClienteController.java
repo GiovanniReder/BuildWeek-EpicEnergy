@@ -1,6 +1,7 @@
 package giovanni.epicenergy.controllers;
 
 import giovanni.epicenergy.entities.Cliente;
+import giovanni.epicenergy.entities.Fattura;
 import giovanni.epicenergy.entities.Indirizzo;
 import giovanni.epicenergy.exceptions.BadRequestException;
 import giovanni.epicenergy.payloads.NuovoIndirizzoDTO;
@@ -148,6 +149,18 @@ public class ClienteController {
 
         return this.clienteService.filterByNomeContatto(body,page,size,sortBy);
 }
+
+// FILTRI PER FATTURE
+    @GetMapping("/{clienteId}/fatture")
+    public Page<Fattura> filterFattureByCliente(
+            @PathVariable UUID clienteId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String  sortBy
+    ){
+       return this.clienteService.filterFattureByCliente(clienteId, page, size, sortBy);
+    }
+
 
 
 
