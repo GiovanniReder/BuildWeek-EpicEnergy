@@ -21,6 +21,6 @@ public record ClienteResponseDTO(
         String civico,
         String cap,
         String comune,
-        String provincia
+        String località
         ) {
 }

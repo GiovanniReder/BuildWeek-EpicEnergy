@@ -36,7 +36,7 @@ public class ClienteService {
         clienteRepository.save(newCliente);
         Indirizzo indirizzo = new Indirizzo(body.comune(), body.cap(), body.civico(), body.via());
         Comune comune = comuneService.findComuneByCapAndName(String.valueOf(body.cap()), body.comune());
-        indirizzo.setLocalità(indirizzo.getCap() + ", " + indirizzo.getComune() + ", " + comune.getProvincia().getSigla());
+        indirizzo.setLocalità(comune.getProvincia().getSigla() + ", " + indirizzo.getComune() + ", " + indirizzo.getCap());
         indirizzo.setIndirizzoCliente(newCliente);
         indirizzoRepository.save(indirizzo);
         newCliente.addSede(indirizzo);
@@ -53,10 +53,10 @@ public class ClienteService {
         return this.clienteRepository.findAll(pageable);
     }
 
-    public Page<NuovoClienteDTO> getAllFatturati(int pageNumber, int pageSize, String sortBy){
+    public Page<ClienteResponseDTO> getAllFatturati(int pageNumber, int pageSize, String sortBy){
         if(pageSize > 20) pageSize = 20;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return this.clienteRepository.findAll(pageable).map((cliente) -> new NuovoClienteDTO(
+        return this.clienteRepository.findAll(pageable).map((cliente) -> new ClienteResponseDTO(
                 cliente.getRagioneSociale(),
                 cliente.getPartitaIva(),
                 cliente.getEmail(),
@@ -71,8 +71,8 @@ public class ClienteService {
                 cliente.getSedi().getFirst().getVia(),
                 cliente.getSedi().getFirst().getCivico(),
                 cliente.getSedi().getFirst().getCap(),
-                cliente.getSedi().getFirst().getComune()
-                //comuneService.findComuneByCapAndName(cliente.getSedi().getFirst().getCap(),cliente.getSedi().getFirst().getComune()).getProvincia().getProvincia()
+                cliente.getSedi().getFirst().getComune(),
+                cliente.getSedi().getFirst().getLocalità()
                 ));
     }
 

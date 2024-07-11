@@ -59,7 +59,7 @@ public class ClienteController {
     }
 
     @GetMapping("/provincia")
-    public Page<NuovoClienteDTO> getAllProvinciaSedeLegale(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "sedi.comune") String sortBy){
+    public Page<ClienteResponseDTO> getAllProvinciaSedeLegale(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "sedi.località") String sortBy){
         return this.clienteService.getAllFatturati(page, size, sortBy);
     }
 
