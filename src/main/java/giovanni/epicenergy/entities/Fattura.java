@@ -1,5 +1,6 @@
 package giovanni.epicenergy.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giovanni.epicenergy.enums.TipoFatturaENUM;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@JsonIgnoreProperties(value = {  "id" })
 public class Fattura {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO )

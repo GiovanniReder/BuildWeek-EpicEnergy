@@ -7,6 +7,7 @@ import giovanni.epicenergy.exceptions.NotFoundException;
 import giovanni.epicenergy.payloads.fatture.NuovaFatturaDTO;
 import giovanni.epicenergy.payloads.fatture.NuovaStatoFatturaDTO;
 import giovanni.epicenergy.payloads.filtri.DataInserimentoDTO;
+import giovanni.epicenergy.payloads.filtri.FatturaPerAnnoDTO;
 import giovanni.epicenergy.payloads.filtri.FatturatoDTO;
 import giovanni.epicenergy.repositories.fatture.FatturaRepository;
 import giovanni.epicenergy.repositories.fatture.StatoFatturaRepository;
@@ -63,5 +64,11 @@ public class FatturaService {
       return fatturaRepository.filterByImporto(body.rangeOne(), body.rangeTwo() , pageable );
 
 
+  }
+
+  public Page<Fattura> fatturaPerAnno(FatturaPerAnnoDTO body,int pageNumber, int pageSize, String sortBy ){
+      if(pageSize > 20) pageSize = 20;
+      Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+      return fatturaRepository.filterByAnno(body.anno(), pageable);
   }
 }
