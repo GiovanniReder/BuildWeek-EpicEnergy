@@ -1,12 +1,14 @@
 package giovanni.epicenergy.controllers;
 
 import giovanni.epicenergy.entities.Cliente;
+import giovanni.epicenergy.exceptions.BadRequestException;
 import giovanni.epicenergy.payloads.NuovoIndirizzoDTO;
 import giovanni.epicenergy.payloads.clienti.ClienteFatturaDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
 import giovanni.epicenergy.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +24,11 @@ public class ClienteController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente save(@RequestBody @Validated NuovoClienteDTO body){
+    public Cliente save(@RequestBody @Validated NuovoClienteDTO body, BindingResult validationResult ){
+        if (validationResult.hasErrors()) {
+            System.out.println(validationResult.getAllErrors());
+            throw new BadRequestException(validationResult.getAllErrors());
+        }
 
         return clienteService.save(body);
     }
