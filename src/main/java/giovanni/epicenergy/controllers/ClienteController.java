@@ -8,6 +8,7 @@ import giovanni.epicenergy.payloads.clienti.ClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoIndirizzoResponseDTO;
+import giovanni.epicenergy.payloads.filtri.FatturatoDTO;
 import giovanni.epicenergy.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -102,5 +104,13 @@ public class ClienteController {
     public Page<ClienteResponseDTO> getAllByDataUltimoContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataUltimoContatto") String sortBy){
         return this.clienteService.getAll(page, size, sortBy);
     }
+
+    @GetMapping("/filter/fatturatoAnnuale")
+    public List<Cliente> filterByFatturatoAnnuale(@RequestBody FatturatoDTO body){
+        return this.clienteService.filterByFatturatoAnnuale(body);
+    }
+
+
+
 
 }

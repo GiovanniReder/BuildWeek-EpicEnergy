@@ -10,6 +10,7 @@ import giovanni.epicenergy.payloads.clienti.ClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoIndirizzoResponseDTO;
+import giovanni.epicenergy.payloads.filtri.FatturatoDTO;
 import giovanni.epicenergy.repositories.ClienteRepository;
 import giovanni.epicenergy.repositories.IndirizzoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -48,15 +50,6 @@ public class ClienteService {
     public Cliente findById(UUID clienteId){
         return clienteRepository.findById(clienteId).orElseThrow(() -> new NotFoundException(clienteId));
     }
-/*
-    public Page<Cliente> getAll(int pageNumber, int pageSize, String sortBy){
-        if(pageSize > 20) pageSize = 20;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return this.clienteRepository.findAll(pageable);
-    }
-* */
-
-
 
     public Page<ClienteResponseDTO> getAll(int pageNumber, int pageSize, String sortBy){
         if(pageSize > 20) pageSize = 20;
@@ -161,9 +154,13 @@ public class ClienteService {
         indirizzoRepository.delete(deleteCliente.getSedi().getFirst());
         }
         clienteRepository.delete(deleteCliente);
-
-
-
-
     }
+
+    public List<Cliente> filterByFatturatoAnnuale (FatturatoDTO range){
+        return clienteRepository.filterByFatturato(range.rangeOne(), range.rangeTwo());
+    }
+
+
+
+
 }
