@@ -42,7 +42,7 @@ public class Cliente {
     @Column(name = "nome_contatto")
     private String nomeContatto;
     @Column(name = "telefono_contatto")
-    private long telefonoContatto;
+    private String telefonoContatto;
     @Column(name = "logo_aziendale")
     private String logoAziendale;
 
@@ -54,7 +54,7 @@ public class Cliente {
     @Column(name = "lista_fatture")
     private List<Fattura> listaFatture;
 
-    public Cliente(RagioneSocialeENUM ragioneSociale, long partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, long fatturatoAnnuale, String pec, String emailContatto, String nomeContatto, long telefonoContatto, String logoAziendale) {
+    public Cliente(RagioneSocialeENUM ragioneSociale, long partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, long fatturatoAnnuale, String pec, String emailContatto, String nomeContatto, String telefonoContatto, String logoAziendale) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.email = email;

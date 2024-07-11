@@ -1,41 +1,39 @@
 package giovanni.epicenergy.payloads.clienti;
 
 import giovanni.epicenergy.enums.RagioneSocialeENUM;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
 public record NuovoClienteDTO(
-        @NotEmpty
         RagioneSocialeENUM ragioneSociale,
-        @NotNull
-        @Size(min = 11, max = 11, message = "La partita iva deve essere di 11 cifre")
+        @NotNull(message = "Partiva iva obbligatoria")
+        //@Max(11)
+        //@Size(min = 4, max = 4, message = "La partita iva deve essere di 11 cifre")
         long partitaIva,
-        @NotEmpty
+        @NotEmpty(message = "Email obbligatoria")
         String email,
         LocalDate dataInserimento,
         LocalDate dataUltimoContatto,
-        @NotNull
+        @NotNull(message = "Fatturato annuale obbligatorio")
         long fatturatoAnnuale,
-        @NotEmpty
+        @NotEmpty(message = "Pec obbligatoria")
         String pec,
-        @NotEmpty
+        @NotEmpty(message = "Email contatto obbligatorio")
         String emailContatto,
-        @NotEmpty
+        @NotEmpty(message = "Nome contatto obbligatoria")
         String nomeContatto,
-        @NotNull
-        @Size(min = 10, max = 10, message = "Il numero di telefono deve contenere 10 cifre")
-        long telefonoContatto,
+        @NotEmpty(message = "Telefono contatto obbligatorio")
+        @Pattern(regexp = "^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$", message = "Formato telefono non valido")
+        String telefonoContatto,
         String logoAziendale,
-        @NotEmpty
+        @NotEmpty(message = "Via obbligatoria")
         String via,
-        @NotEmpty
+        @NotEmpty(message = "Civico obbligatorio")
         String civico,
-        @NotEmpty
+        @NotEmpty(message = "Cap obbligatoria")
         String cap,
-        @NotEmpty
+        @NotEmpty(message = "comune obbligatoria")
         String comune
         ) {
 }
