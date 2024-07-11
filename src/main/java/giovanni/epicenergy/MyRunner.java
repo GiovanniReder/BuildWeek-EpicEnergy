@@ -15,8 +15,8 @@ public class MyRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try {
-           ruoloUtenteService.save(new NuovoRuoloDTO("USER") )  ;
-           ruoloUtenteService.save(new NuovoRuoloDTO("ADMIN") )  ;
+           ruoloUtenteService.save(new NuovoRuoloDTO("USER") );
+           ruoloUtenteService.save(new NuovoRuoloDTO("ADMIN") );
         } catch(BadRequestException error){
             error.printStackTrace();
        }

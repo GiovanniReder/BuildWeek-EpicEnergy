@@ -19,7 +19,7 @@ public class UtenteController  {
     @Autowired
     private UtenteService utenteService;
 
-    @PatchMapping("/me/avatar") //DA RIVEDERE
+    @PatchMapping("/me/avatar")
     public Utente uploadAvatar(@AuthenticationPrincipal Utente currentUser , @RequestParam("avatar") MultipartFile image ) throws IOException {
     return this.utenteService.patchAvatarUtente(currentUser , this.utenteService.uploadAvatar(image));
     }
@@ -33,11 +33,11 @@ public class UtenteController  {
     }
 
     @GetMapping
-    //@PreAuthorize("hasRole('USER')")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Utente> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy){
         return  this.utenteService.getAllEvent(page, size, sortBy);
     }
 
+    
                         //creare metodo per aggiungere un ruolo
 }
