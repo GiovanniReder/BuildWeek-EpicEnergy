@@ -6,6 +6,7 @@ import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
 import giovanni.epicenergy.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +16,7 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping("/register")
-    public Cliente save(@RequestBody NuovoClienteDTO body){
+    public Cliente save(@RequestBody @Validated NuovoClienteDTO body){
         return clienteService.save(body);
     }
 

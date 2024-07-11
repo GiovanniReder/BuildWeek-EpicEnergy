@@ -8,6 +8,7 @@ import giovanni.epicenergy.services.FatturaService;
 import giovanni.epicenergy.services.StatoFatturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -22,19 +23,19 @@ public class StatoFatturaController {
 
     @PostMapping("/stato")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public StatoFattura saveStatoFattura(@RequestBody NuovaStatoFatturaDTO body){
+    public StatoFattura saveStatoFattura(@RequestBody @Validated NuovaStatoFatturaDTO body){
        return statoFatturaService.save(body);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Fattura saveFattura(@RequestBody NuovaFatturaDTO body){
+    public Fattura saveFattura(@RequestBody @Validated NuovaFatturaDTO body){
         return fatturaService.save(body);
     }
 
     @PatchMapping("/{fatturaId}/stato")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Fattura patchStatoFattura(@RequestBody NuovaStatoFatturaDTO body , @PathVariable UUID fatturaId){
+    public Fattura patchStatoFattura(@RequestBody  NuovaStatoFatturaDTO body , @PathVariable UUID fatturaId){
         return fatturaService.patchStatoFattura(body , fatturaId);
     }
 }

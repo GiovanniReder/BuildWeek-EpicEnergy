@@ -25,7 +25,7 @@ public class UtenteController  {
     }
 
     //ricava utente corrente
-    // DA SISTEMARE LA VALIDAZION E RESPONSE
+    //TODO DA SISTEMARE LA VALIDAZION E RESPONSE
     @PatchMapping("/{userId}/ruolo")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Utente uploadRuolo( @PathVariable UUID userId , @RequestBody NuovoRuoloResponseDTO ruolo) {
