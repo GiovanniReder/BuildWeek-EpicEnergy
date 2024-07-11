@@ -4,7 +4,9 @@ import giovanni.epicenergy.controllers.ClienteController;
 import giovanni.epicenergy.entities.Cliente;
 import giovanni.epicenergy.entities.Comune;
 import giovanni.epicenergy.entities.Indirizzo;
+import giovanni.epicenergy.exceptions.BadRequestException;
 import giovanni.epicenergy.exceptions.NotFoundException;
+import giovanni.epicenergy.payloads.NuovoIndirizzoDTO;
 import giovanni.epicenergy.payloads.clienti.ClienteFatturaDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
 import giovanni.epicenergy.repositories.ClienteRepository;
@@ -42,8 +44,7 @@ public class ClienteService {
         indirizzo.setIndirizzoCliente(newCliente);
         indirizzoRepository.save(indirizzo);
         newCliente.addSede(indirizzo);
-        clienteRepository.save(newCliente);
-        return newCliente;
+        return clienteRepository.save(newCliente);
     }
 
     public Cliente findById(UUID clienteId){
@@ -60,5 +61,39 @@ public class ClienteService {
         if(pageSize > 20) pageSize = 20;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return this.clienteRepository.findAll(pageable).map(cliente -> new ClienteFatturaDTO(cliente.getFatturatoAnnuale()));
+    }
+
+    public Cliente addIndirizzo(UUID clienteId, NuovoIndirizzoDTO body){
+        Cliente cliente = this.findById(clienteId);
+        if (cliente.getSedi().size() > 2){
+            throw new BadRequestException("Si può avere massimo due indirizzi");
+        }
+        Indirizzo indirizzo = new Indirizzo(body.comune(), body.cap(), body.civico(), body.via());
+        Comune comune = comuneService.findComuneByCapAndName(String.valueOf(body.cap()), body.comune());
+        indirizzo.setLocalità(body.cap() + ", " + body.comune() + ", " + comune.getProvincia().getSigla());
+        indirizzo.setIndirizzoCliente(cliente);
+        indirizzoRepository.save(indirizzo);
+        cliente.addSede(indirizzo);
+        return clienteRepository.save(cliente);
+    }
+
+    public Cliente updateIndirizzo(UUID clienteId, UUID indirizzoId, NuovoIndirizzoDTO body){
+        Cliente cliente = this.findById(clienteId);
+        Indirizzo indirizzo = indirizzoRepository.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId) );
+        indirizzo.setVia(body.via());
+        indirizzo.setCap(body.cap());
+        indirizzo.setComune(body.comune());
+        indirizzo.setCivico(body.civico());
+        Comune comune = comuneService.findComuneByCapAndName(String.valueOf(body.cap()), body.comune());
+        indirizzo.setLocalità(body.cap() + ", " + body.comune() + ", " + comune.getProvincia().getSigla());
+        indirizzoRepository.save(indirizzo);
+        return clienteRepository.save(cliente);
+    }
+
+    public void deleteIndirizzo(UUID clienteId, UUID indirizzoId){
+        Cliente cliente = this.findById(clienteId);
+        Indirizzo indirizzo = indirizzoRepository.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId) );
+        indirizzoRepository.delete(indirizzo);
+        clienteRepository.save(cliente);
     }
 }
