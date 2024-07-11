@@ -37,7 +37,6 @@ public class ClienteService {
                 body.telefonoContatto(), body.logoAziendale());
         clienteRepository.save(newCliente);
         Indirizzo indirizzo = new Indirizzo(body.comune(), body.cap(), body.civico(), body.via());
-        System.out.println(String.valueOf(body.cap()) + "  "+ body.comune());
         Comune comune = comuneService.findComuneByCapAndName(String.valueOf(body.cap()), body.comune());
         indirizzo.setLocalità(indirizzo.getCap() + ", " + indirizzo.getComune() + ", " + comune.getProvincia().getSigla());
         indirizzo.setIndirizzoCliente(newCliente);

@@ -69,11 +69,11 @@ public class DatabaseLoader {
 
             if (Objects.equals(element[1], "#RIF!")){
                 String formattedNumber = String.format("%03d", n[0]);
-                Comune comune = new Comune(element[3], element[2], element[0] + formattedNumber);
+                Comune comune = new Comune(element[3],element[2], element[0] + formattedNumber);
                 n[0]++;
                 return comune;
             }else{
-                return new Comune(element[3], element[2], element[0] + element[1]);
+                return new Comune(element[3],element[2], element[0] + element[1]);
             }
         }).collect(Collectors.toList());
 
@@ -91,9 +91,15 @@ public class DatabaseLoader {
 
         //con questa funzione ci salviamo tutti i dati all'interno del DB
 
-        newProvinciaSet.add(new Provincia("VCO", "Verbano-Cusio-Ossola", "Piemonte"));
-        newProvinciaSet.add(new Provincia("SU", "Sud Sardegna", "Sardegna"));
         for (Provincia provincia: newProvinciaSet){
+            if (Objects.equals(provincia.getProvincia(), "Carbonia Iglesias")){
+                provincia.setProvincia("Sud Sardegna");
+                provincia.setSigla("SU");
+            }
+            if (Objects.equals(provincia.getProvincia(), "Verbania")){
+                provincia.setProvincia("Verbano-Cusio-Ossola");
+                provincia.setSigla("VCO");
+            }
             if (Objects.equals(provincia.getProvincia(), "Monza-Brianza")) provincia.setProvincia("Monza e della Brianza");
             if (Objects.equals(provincia.getProvincia(), "Vibo-Valentia")) provincia.setProvincia("Vibo Valentia");
             if (Objects.equals(provincia.getProvincia(), "La-Spezia")) provincia.setProvincia("La Spezia");
