@@ -1,4 +1,6 @@
 package giovanni.epicenergy.payloads.filtri;
 
-public class DataUltimoContattoDTO {
+import java.time.LocalDate;
+
+public record DataUltimoContattoDTO(LocalDate dataOne , LocalDate dataTwo) {
 }

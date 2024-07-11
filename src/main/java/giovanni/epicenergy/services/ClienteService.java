@@ -10,7 +10,9 @@ import giovanni.epicenergy.payloads.clienti.ClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoIndirizzoResponseDTO;
+import giovanni.epicenergy.payloads.filtri.ClientePerNomeDTO;
 import giovanni.epicenergy.payloads.filtri.DataInserimentoDTO;
+import giovanni.epicenergy.payloads.filtri.DataUltimoContattoDTO;
 import giovanni.epicenergy.payloads.filtri.FatturatoDTO;
 import giovanni.epicenergy.repositories.ClienteRepository;
 import giovanni.epicenergy.repositories.IndirizzoRepository;
@@ -166,11 +168,26 @@ public class ClienteService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return clienteRepository.filterByFatturato(range.rangeOne(), range.rangeTwo(), pageable);
     }
+
     public Page<Cliente> filterByDataInserimento(DataInserimentoDTO range, int pageNumber, int pageSize, String sortBy) {
         if(pageSize > 20) pageSize = 20;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return clienteRepository.filterByDataInserimento(range.dataOne(), range.dataTwo(), pageable);
     }
+
+    public Page<Cliente> filterByDataUltimoContatto(DataUltimoContattoDTO range , int pageNumber, int pageSize, String sortBy){
+        if(pageSize > 20) pageSize = 20;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        return clienteRepository.filterByDataUltimoContatto(range.dataOne(), range.dataTwo(), pageable);
+    }
+
+    public Page<Cliente> filterByNomeContatto(ClientePerNomeDTO name , int pageNumber, int pageSize, String sortBy){
+        if(pageSize > 20) pageSize = 20;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        return clienteRepository.filterByNomeContatto(name.partialName(), pageable);
+    }
+
+
 
 
 

@@ -19,10 +19,23 @@ public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
         Page<Cliente> filterByFatturato( long rangeOne,
                                          long rangeTwo,
                                         Pageable pageable);
+
     @Query("SELECT c FROM Cliente c WHERE c.dataInserimento BETWEEN :dateOne AND :dateTwo")
     Page<Cliente> filterByDataInserimento( LocalDate dateOne,
                                      LocalDate dateTwo,
                                      Pageable pageable);
+
+    @Query("SELECT c FROM Cliente c WHERE c.dataUltimoContatto BETWEEN :dateOne AND :dateTwo")
+    Page<Cliente> filterByDataUltimoContatto(LocalDate dateOne,
+                                             LocalDate dateTwo,
+                                             Pageable pageable);
+
+    @Query("SELECT c FROM Cliente c WHERE c.nomeContatto ILIKE %:partialName%")
+    Page<Cliente> filterByNomeContatto(
+            String partialName,
+            Pageable pageable
+    );
+
 
 
 }

@@ -8,7 +8,9 @@ import giovanni.epicenergy.payloads.clienti.ClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoIndirizzoResponseDTO;
+import giovanni.epicenergy.payloads.filtri.ClientePerNomeDTO;
 import giovanni.epicenergy.payloads.filtri.DataInserimentoDTO;
+import giovanni.epicenergy.payloads.filtri.DataUltimoContattoDTO;
 import giovanni.epicenergy.payloads.filtri.FatturatoDTO;
 import giovanni.epicenergy.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,6 +130,24 @@ public class ClienteController {
         return this.clienteService.filterByDataInserimento(body, page, size, sortBy);
     }
 
+    @GetMapping("/filter/dataUltimoContatto")
+    public Page<Cliente> filterByDataUltimoContatto(@RequestBody DataUltimoContattoDTO body,
+                                                    @RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "10") int size,
+                                                    @RequestParam(defaultValue = "dataUltimoContatto") String  sortBy
+                                                    ){
+        return this.clienteService.filterByDataUltimoContatto(body, page, size, sortBy);
+    }
+
+@GetMapping("filter/nomeContatto")
+    public Page<Cliente> filterByNomeContatto(@RequestBody ClientePerNomeDTO body,
+                                              @RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "10") int size,
+                                              @RequestParam(defaultValue = "nomeContatto") String  sortBy
+                                              ){
+
+        return this.clienteService.filterByNomeContatto(body,page,size,sortBy);
+}
 
 
 
