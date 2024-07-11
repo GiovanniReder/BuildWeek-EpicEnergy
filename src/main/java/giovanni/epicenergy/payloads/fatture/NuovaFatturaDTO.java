@@ -9,13 +9,12 @@ import java.util.UUID;
 
 public record NuovaFatturaDTO(
         @NotNull
-        @Size(min = 10, message = "Il numero deve contenere un minimo di 10 Numeri")
+        @Size(min = 10, max= 10, message = "Il numero di telefono deve contenere 10 cifre ")
         long numero,
         LocalDate data ,
-        @NotEmpty
         @NotNull
         long importo,
-        @NotNull
+        @NotEmpty
         UUID clienteId
 ) {
 }
