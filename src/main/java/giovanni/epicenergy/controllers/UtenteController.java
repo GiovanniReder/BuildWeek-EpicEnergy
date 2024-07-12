@@ -32,8 +32,6 @@ public class UtenteController  {
     return this.utenteService.patchAvatarUtente(currentUser , this.utenteService.uploadAvatar(image));
     }
 
-    //ricava utente corrente
-    //TODO DA SISTEMARE LA VALIDAZION E RESPONSE
     @PatchMapping("/{userId}/ruolo")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Utente uploadRuolo(@PathVariable UUID userId , @RequestBody @Validated NuovoRuoloResponseDTO ruolo, BindingResult bindingResult) {

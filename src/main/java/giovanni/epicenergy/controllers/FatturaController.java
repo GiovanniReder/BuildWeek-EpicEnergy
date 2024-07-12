@@ -75,8 +75,6 @@ public class FatturaController {
         }
         return fatturaService.fatturaPerAnno(body, page, size, sortBy);
     }
-
-
 }
     
      

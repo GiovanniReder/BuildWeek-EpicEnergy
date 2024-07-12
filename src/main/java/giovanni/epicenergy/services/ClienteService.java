@@ -40,12 +40,12 @@ public class ClienteService {
         if (clienteRepository.findByNomeContattoOrEmailContattoOrTelefonoContatto(body.nomeContatto(), body.emailContatto(), body.telefonoContatto()).isPresent()){
             throw new BadRequestException("Email / telefono / nome contatto già presente!");
         }
+        Comune comune = comuneService.findComuneByCapAndName(String.valueOf(body.cap()), body.comune());
         Cliente newCliente = new Cliente(body.ragioneSociale(), body.partitaIva(), body.email(), body.dataInserimento(),
                 body.dataUltimoContatto(), body.fatturatoAnnuale(), body.pec(), body.emailContatto(), body.nomeContatto(),
                 body.telefonoContatto(), body.logoAziendale());
         clienteRepository.save(newCliente);
         Indirizzo indirizzo = new Indirizzo(body.comune(), body.cap(), body.civico(), body.via());
-        Comune comune = comuneService.findComuneByCapAndName(String.valueOf(body.cap()), body.comune());
         indirizzo.setLocalità(comune.getProvincia().getSigla() + ", " + indirizzo.getComune() + ", " + indirizzo.getCap());
         indirizzo.setIndirizzoCliente(newCliente);
         indirizzoRepository.save(indirizzo);
@@ -72,6 +72,7 @@ public class ClienteService {
                 cliente.getNomeContatto(),
                 cliente.getTelefonoContatto(),
                 cliente.getLogoAziendale(),
+                //null, null, null, null, null));
                 cliente.getSedi().getFirst().getVia(),
                 cliente.getSedi().getFirst().getCivico(),
                 cliente.getSedi().getFirst().getCap(),
@@ -86,7 +87,7 @@ public class ClienteService {
         }
         Indirizzo indirizzo = new Indirizzo(body.comune(), body.cap(), body.civico(), body.via());
         Comune comune = comuneService.findComuneByCapAndName(String.valueOf(body.cap()), body.comune());
-        indirizzo.setLocalità(body.cap() + ", " + body.comune() + ", " + comune.getProvincia().getSigla());
+        indirizzo.setLocalità(comune.getProvincia().getSigla() + ", " + indirizzo.getComune() + ", " + indirizzo.getCap());
         indirizzo.setIndirizzoCliente(cliente);
         indirizzoRepository.save(indirizzo);
         cliente.addSede(indirizzo);
@@ -101,7 +102,7 @@ public class ClienteService {
         indirizzo.setComune(body.comune());
         indirizzo.setCivico(body.civico());
         Comune comune = comuneService.findComuneByCapAndName(String.valueOf(body.cap()), body.comune());
-        indirizzo.setLocalità(body.cap() + ", " + body.comune() + ", " + comune.getProvincia().getSigla());
+        indirizzo.setLocalità(comune.getProvincia().getSigla() + ", " + indirizzo.getComune() + ", " + indirizzo.getCap());
         indirizzoRepository.save(indirizzo);
         clienteRepository.save(indirizzo.getIndirizzoCliente());
         return indirizzo;
@@ -142,8 +143,12 @@ public class ClienteService {
 
     public void deleteIndirizzo( UUID indirizzoId){
         Indirizzo indirizzo = indirizzoRepository.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId) );
-        indirizzoRepository.delete(indirizzo);
-        clienteRepository.save(indirizzo.getIndirizzoCliente());
+        if (indirizzo.getIndirizzoCliente().getSedi().size() <= 1){
+            throw new BadRequestException("Non è possibile cancellare l'indirizzo! Almeno un indirizzo è obbligatorio");
+        }else {
+            indirizzoRepository.delete(indirizzo);
+            clienteRepository.save(indirizzo.getIndirizzoCliente());
+        }
     }
 
     public void deleteCliente(UUID clienteId){
