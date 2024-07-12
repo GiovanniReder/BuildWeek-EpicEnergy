@@ -11,7 +11,10 @@ import java.util.UUID;
 
 @Repository
 public interface UtenteRepository extends JpaRepository<Utente , UUID> {
-Optional<Utente> findByEmail(String email);
+    Optional<Utente> findByEmail(String email);
+
     @Query("SELECT u FROM Utente u JOIN FETCH u.ruoli WHERE u.id = :id")
     Optional<Utente> findByIdWithRuoli(@Param("id") Long id);
+
+    Optional<Utente> findByEmailOrUserName(String email, String userName);
 }

@@ -37,6 +37,9 @@ public class ClienteService {
 
 
     public Cliente save(NuovoClienteDTO body){
+        if (clienteRepository.findByNomeContattoOrEmailContattoOrTelefonoContatto(body.nomeContatto(), body.emailContatto(), body.telefonoContatto()).isPresent()){
+            throw new BadRequestException("Email / telefono / nome contatto già presente!");
+        }
         Cliente newCliente = new Cliente(body.ragioneSociale(), body.partitaIva(), body.email(), body.dataInserimento(),
                 body.dataUltimoContatto(), body.fatturatoAnnuale(), body.pec(), body.emailContatto(), body.nomeContatto(),
                 body.telefonoContatto(), body.logoAziendale());
@@ -73,8 +76,7 @@ public class ClienteService {
                 cliente.getSedi().getFirst().getCivico(),
                 cliente.getSedi().getFirst().getCap(),
                 cliente.getSedi().getFirst().getComune(),
-                cliente.getSedi().getFirst().getLocalità()
-                ));
+                cliente.getSedi().getFirst().getLocalità()));
     }
 
     public Indirizzo addIndirizzo(UUID clienteId, NuovoIndirizzoDTO body){
@@ -98,7 +100,6 @@ public class ClienteService {
         indirizzo.setCap(body.cap());
         indirizzo.setComune(body.comune());
         indirizzo.setCivico(body.civico());
-
         Comune comune = comuneService.findComuneByCapAndName(String.valueOf(body.cap()), body.comune());
         indirizzo.setLocalità(body.cap() + ", " + body.comune() + ", " + comune.getProvincia().getSigla());
         indirizzoRepository.save(indirizzo);
@@ -119,7 +120,6 @@ public class ClienteService {
         found.setNomeContatto(body.nomeContatto());
         found.setTelefonoContatto(body.telefonoContatto());
         found.setLogoAziendale(body.logoAziendale());
-
         clienteRepository.save(found);
         return new ClienteResponseDTO(
                found.getRagioneSociale(),

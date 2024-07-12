@@ -41,14 +41,14 @@ public class UtenteService {
     private MailgunSender mailgunSender;
 
     public Utente save(NuovoUtenteDTO body) {
-        this.utenteRepository.findByEmail(body.email()).ifPresent(
+        this.utenteRepository.findByEmailOrUserName(body.email(), body.userName()).ifPresent(
                 user -> {
-                    throw new BadRequestException("email già in uso");
+                    throw new BadRequestException("Email o username già in uso");
         });
         Utente newUser = new Utente(body.cognome(), body.nome(), bcrypt.encode(body.password()), body.email(),
                 body.userName());
         newUser.setRuoli(new ArrayList<>(Arrays.asList(ruoloUtenteService.findByRuolo("USER"))));
-                utenteRepository.save(newUser);
+        utenteRepository.save(newUser);
         mailgunSender.sendRegistrationEmail(newUser);
         return newUser;
     }
