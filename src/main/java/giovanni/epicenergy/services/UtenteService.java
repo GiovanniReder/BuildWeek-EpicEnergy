@@ -9,6 +9,7 @@ import giovanni.epicenergy.exceptions.NotFoundException;
 import giovanni.epicenergy.payloads.ruoli.NuovoRuoloResponseDTO;
 import giovanni.epicenergy.payloads.utenti.NuovoUtenteDTO;
 import giovanni.epicenergy.repositories.utente.UtenteRepository;
+import giovanni.epicenergy.tools.MailgunSender;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,16 +37,20 @@ public class UtenteService {
     private Cloudinary cloudinary;
     @Autowired
     private RuoloUtenteService ruoloUtenteService;
+    @Autowired
+    private MailgunSender mailgunSender;
 
     public Utente save(NuovoUtenteDTO body) {
-        this.utenteRepository.findByEmail(body.email()).ifPresent(
-                user -> {
-                    throw new BadRequestException("email già in uso");
-                });
+       // this.utenteRepository.findByEmail(body.email()).ifPresent(
+            //    user -> {
+              //      throw new BadRequestException("email già in uso");
+//});
         Utente newUser = new Utente(body.cognome(), body.nome(), bcrypt.encode(body.password()), body.email(),
                 body.userName());
         newUser.setRuoli(new ArrayList<>(Arrays.asList(ruoloUtenteService.findByRuolo("USER"))));
-        return utenteRepository.save(newUser);
+                utenteRepository.save(newUser);
+        mailgunSender.sendRegistrationEmail(newUser);
+        return newUser;
     }
 
     public Utente findById(UUID utenteId) {
