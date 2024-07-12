@@ -24,7 +24,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -89,13 +88,11 @@ public class ClienteService {
         indirizzo.setIndirizzoCliente(cliente);
         indirizzoRepository.save(indirizzo);
         cliente.addSede(indirizzo);
-
-         clienteRepository.save(cliente);
-         return indirizzo;
+        clienteRepository.save(cliente);
+        return indirizzo;
     }
 
     public Indirizzo updateIndirizzo( UUID indirizzoId, NuovoIndirizzoDTO body){
-        //Cliente cliente = this.findById(clienteId);
         Indirizzo indirizzo = indirizzoRepository.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId) );
         indirizzo.setVia(body.via());
         indirizzo.setCap(body.cap());
@@ -105,12 +102,12 @@ public class ClienteService {
         Comune comune = comuneService.findComuneByCapAndName(String.valueOf(body.cap()), body.comune());
         indirizzo.setLocalità(body.cap() + ", " + body.comune() + ", " + comune.getProvincia().getSigla());
         indirizzoRepository.save(indirizzo);
-         clienteRepository.save(indirizzo.getIndirizzoCliente());
-         return indirizzo;
+        clienteRepository.save(indirizzo.getIndirizzoCliente());
+        return indirizzo;
     }
 
     public ClienteResponseDTO updateCliente(UUID clienteId , NuovoClienteDTO body){
-   Cliente found= this.findById(clienteId);
+        Cliente found= this.findById(clienteId);
         found.setRagioneSociale(body.ragioneSociale());
         found.setPartitaIva(body.partitaIva());
         found.setEmail(body.email());
@@ -124,8 +121,7 @@ public class ClienteService {
         found.setLogoAziendale(body.logoAziendale());
 
         clienteRepository.save(found);
-        return
-                new ClienteResponseDTO(
+        return new ClienteResponseDTO(
                found.getRagioneSociale(),
                found.getPartitaIva(),
                found.getEmail(),
@@ -141,28 +137,22 @@ public class ClienteService {
                found.getSedi().getFirst().getCivico(),
                found.getSedi().getFirst().getCap(),
                found.getSedi().getFirst().getComune(),
-               found.getSedi().getFirst().getLocalità()
-
-                );
+               found.getSedi().getFirst().getLocalità());
     }
 
     public void deleteIndirizzo( UUID indirizzoId){
-
         Indirizzo indirizzo = indirizzoRepository.findById(indirizzoId).orElseThrow(() -> new NotFoundException(indirizzoId) );
         indirizzoRepository.delete(indirizzo);
         clienteRepository.save(indirizzo.getIndirizzoCliente());
     }
+
     public void deleteCliente(UUID clienteId){
         Cliente deleteCliente = this.findById(clienteId);
         for (int i = 0; i < deleteCliente.getSedi().size(); i++) {
-        indirizzoRepository.delete(deleteCliente.getSedi().getFirst());
+            indirizzoRepository.delete(deleteCliente.getSedi().getFirst());
         }
         clienteRepository.delete(deleteCliente);
     }
-
-//    public List<Cliente> filterByFatturatoAnnuale (FatturatoDTO range){
-//        return clienteRepository.filterByFatturato(range.rangeOne(), range.rangeTwo());
-//    }
 
     public Page<Cliente> filterByFatturatoAnnuale(FatturatoDTO range, int pageNumber, int pageSize, String sortBy) {
         if(pageSize > 20) pageSize = 20;
@@ -194,10 +184,4 @@ public class ClienteService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return clienteRepository.filterFattureByCliente(clienteId, pageable);
     }
-
-
-
-
-
-
 }

@@ -1,18 +1,22 @@
 package giovanni.epicenergy.controllers;
 
 import giovanni.epicenergy.entities.Cliente;
+
 import giovanni.epicenergy.entities.Fattura;
 import giovanni.epicenergy.entities.Indirizzo;
 import giovanni.epicenergy.exceptions.BadRequestException;
+
 import giovanni.epicenergy.payloads.NuovoIndirizzoDTO;
 import giovanni.epicenergy.payloads.clienti.ClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
+
 import giovanni.epicenergy.payloads.clienti.NuovoClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoIndirizzoResponseDTO;
 import giovanni.epicenergy.payloads.filtri.ClientePerNomeDTO;
 import giovanni.epicenergy.payloads.filtri.DataInserimentoDTO;
 import giovanni.epicenergy.payloads.filtri.DataUltimoContattoDTO;
 import giovanni.epicenergy.payloads.filtri.FatturatoDTO;
+
 import giovanni.epicenergy.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,7 +42,6 @@ public class ClienteController {
             System.out.println(bindingResult.getAllErrors());
             throw new BadRequestException(bindingResult.getAllErrors());
         }
-
         return new NuovoClienteResponseDTO(clienteService.save(body).getId());
     }
 
@@ -55,12 +58,9 @@ public class ClienteController {
         return clienteService.updateIndirizzo(indirizzoId,body);
     }
 
-
-
     @PutMapping("/{clienteId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ClienteResponseDTO updateCliente( @PathVariable UUID clienteId, @RequestBody NuovoClienteDTO body){
-
         return clienteService.updateCliente(clienteId,body);
     }
 
@@ -109,12 +109,6 @@ public class ClienteController {
         return this.clienteService.getAll(page, size, sortBy);
     }
 
-    /*
-    @GetMapping("/filter/fatturatoAnnuale")
-    public List<Cliente> filterByFatturatoAnnuale(@RequestBody FatturatoDTO body){
-        return this.clienteService.filterByFatturatoAnnuale(body);
-    }
-    *  */
     @GetMapping("/filter/fatturatoAnnuale")
     public Page<Cliente> filterByFatturatoAnnuale(@RequestBody FatturatoDTO body,
                                                   @RequestParam(defaultValue = "0") int page,
@@ -135,35 +129,26 @@ public class ClienteController {
     public Page<Cliente> filterByDataUltimoContatto(@RequestBody DataUltimoContattoDTO body,
                                                     @RequestParam(defaultValue = "0") int page,
                                                     @RequestParam(defaultValue = "10") int size,
-                                                    @RequestParam(defaultValue = "dataUltimoContatto") String  sortBy
-                                                    ){
+                                                    @RequestParam(defaultValue = "dataUltimoContatto") String  sortBy){
         return this.clienteService.filterByDataUltimoContatto(body, page, size, sortBy);
     }
 
-@GetMapping("filter/nomeContatto")
+    @GetMapping("filter/nomeContatto")
     public Page<Cliente> filterByNomeContatto(@RequestBody ClientePerNomeDTO body,
                                               @RequestParam(defaultValue = "0") int page,
                                               @RequestParam(defaultValue = "10") int size,
-                                              @RequestParam(defaultValue = "nomeContatto") String  sortBy
-                                              ){
-
+                                              @RequestParam(defaultValue = "nomeContatto") String  sortBy){
         return this.clienteService.filterByNomeContatto(body,page,size,sortBy);
-}
+    }
 
-// FILTRI PER FATTURE
+    // FILTRI PER FATTURE
     @GetMapping("/{clienteId}/fatture")
     public Page<Fattura> filterFattureByCliente(
             @PathVariable UUID clienteId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String  sortBy
-    ){
+            @RequestParam(defaultValue = "id") String  sortBy){
        return this.clienteService.filterFattureByCliente(clienteId, page, size, sortBy);
     }
-
-
-
-
-
 
 }
