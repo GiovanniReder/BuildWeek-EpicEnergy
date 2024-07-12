@@ -18,17 +18,17 @@ public class FatturaController {
 
     @GetMapping("/stato")
     public Page<Fattura> filterByStatoFattura(@RequestBody NuovaStatoFatturaDTO body,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "data") String sortBy) {
+                                              @RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "10") int size,
+                                              @RequestParam(defaultValue = "data") String sortBy) {
         return fatturaService.fatturaPerStato(body, page, size, sortBy);
     }
 
     @GetMapping("/data")
     public Page<Fattura> filterByData(@RequestBody DataInserimentoDTO body,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "data") String sortBy) {
+                                      @RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "10") int size,
+                                      @RequestParam(defaultValue = "data") String sortBy) {
         return fatturaService.fatturaPerData(body, page, size, sortBy);
     }
 
@@ -37,22 +37,23 @@ public class FatturaController {
             @RequestBody FatturatoDTO body,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "importo") String  sortBy
-            ){
-        return fatturaService.fatturaPerImporto(body,page, size, sortBy);
+            @RequestParam(defaultValue = "importo") String sortBy
+    ) {
+        return fatturaService.fatturaPerImporto(body, page, size, sortBy);
     }
-    @
+
+    @GetMapping("/anno")
 
     public Page<Fattura> filterByAnno(
             @RequestBody FatturaPerAnnoDTO body,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "importo") String  sortBy
-            ){ r n fatturaService.fatturaPerAnno(body,page,size,sortBy);
-    }   
+            @RequestParam(defaultValue = "importo") String sortBy
+    ) {
+        return fatturaService.fatturaPerAnno(body, page, size, sortBy);
+    }
 
 
-    
-
+}
     
      
