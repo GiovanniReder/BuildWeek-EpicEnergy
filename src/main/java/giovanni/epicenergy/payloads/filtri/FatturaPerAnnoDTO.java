@@ -1,4 +1,8 @@
 package giovanni.epicenergy.payloads.filtri;
 
-public record FatturaPerAnnoDTO(int anno) {
+import jakarta.validation.constraints.NotNull;
+
+public record FatturaPerAnnoDTO(
+        @NotNull(message = "Anno obbligatorio")
+        int anno) {
 }

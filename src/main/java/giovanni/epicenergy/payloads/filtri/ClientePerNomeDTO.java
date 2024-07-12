@@ -1,4 +1,8 @@
 package giovanni.epicenergy.payloads.filtri;
 
-public record ClientePerNomeDTO(String partialName) {
+import jakarta.validation.constraints.NotEmpty;
+
+public record ClientePerNomeDTO(
+        @NotEmpty(message = "Nome obbligatorio")
+        String partialName) {
 }

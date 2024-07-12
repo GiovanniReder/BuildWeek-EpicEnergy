@@ -13,7 +13,9 @@ public record NuovoClienteDTO(
         long partitaIva,
         @NotEmpty(message = "Email obbligatoria")
         String email,
+        @NotNull(message = "Data inserimento obbligatoria")
         LocalDate dataInserimento,
+        @NotNull(message = "Data ultimo contatto obbligatoria")
         LocalDate dataUltimoContatto,
         @NotNull(message = "Fatturato annuale obbligatorio")
         long fatturatoAnnuale,

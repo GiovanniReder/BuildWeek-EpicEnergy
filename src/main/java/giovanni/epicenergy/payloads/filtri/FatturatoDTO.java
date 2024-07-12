@@ -1,4 +1,10 @@
 package giovanni.epicenergy.payloads.filtri;
 
-public record FatturatoDTO(long rangeOne , long rangeTwo) {
+import jakarta.validation.constraints.NotNull;
+
+public record FatturatoDTO(
+        @NotNull(message = "Numero 1 obbligatoria")
+        long rangeOne ,
+        @NotNull(message = "Numero 2 obbligatoria")
+        long rangeTwo) {
 }

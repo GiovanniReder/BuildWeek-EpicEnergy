@@ -8,13 +8,17 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record NuovaFatturaDTO(
-       // @NotNull
-       // @Size(min = 10, max= 10, message = "Il numero di telefono deve contenere 10 cifre ")
+
+        @NotNull(message = "Numero fattura obbligatorio")
         long numero,
+
+        @NotNull(message = "Data della fattura obbligatoria")
         LocalDate data ,
-       // @NotNull
+
+        @NotNull(message = "Importo fattura obbligatorio")
         long importo,
-       // @NotEmpty
+
+        @NotEmpty(message = "Id associato al cliente obbligatorio")
         UUID clienteId
 ) {
 }
