@@ -1,5 +1,6 @@
 package giovanni.epicenergy.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giovanni.epicenergy.enums.TipoUtenteENUM;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @Setter
 @ToString
 @NoArgsConstructor
+@JsonIgnoreProperties(value = { "password", "id", "username", "authorities", "enabled", "accountNonExpired", "credentialsNonExpired", "accountNonLocked"  })
 public class Utente implements UserDetails  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )

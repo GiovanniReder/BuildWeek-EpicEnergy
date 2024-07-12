@@ -1,7 +1,10 @@
 package giovanni.epicenergy.controllers;
 
+import giovanni.epicenergy.entities.RuoloUtente;
 import giovanni.epicenergy.entities.Utente;
+import giovanni.epicenergy.payloads.ruoli.NuovoRuoloDTO;
 import giovanni.epicenergy.payloads.ruoli.NuovoRuoloResponseDTO;
+import giovanni.epicenergy.services.RuoloUtenteService;
 import giovanni.epicenergy.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +21,8 @@ import java.util.UUID;
 public class UtenteController  {
     @Autowired
     private UtenteService utenteService;
+    @Autowired
+    private RuoloUtenteService ruoloUtenteService;
 
     @PatchMapping("/me/avatar")
     public Utente uploadAvatar(@AuthenticationPrincipal Utente currentUser , @RequestParam("avatar") MultipartFile image ) throws IOException {
@@ -38,6 +43,9 @@ public class UtenteController  {
         return  this.utenteService.getAllEvent(page, size, sortBy);
     }
 
-    
-                        //creare metodo per aggiungere un ruolo
+    @PostMapping("/ruolo")
+    @PreAuthorize("hasAuthority('ADMIN')")
+      public RuoloUtente addRuolo(@RequestBody NuovoRuoloDTO body){
+        return ruoloUtenteService.save(body);
+    }                  //creare metodo per aggiungere un ruolo
 }

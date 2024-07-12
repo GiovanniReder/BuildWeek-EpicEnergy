@@ -1,5 +1,6 @@
 package giovanni.epicenergy.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +12,7 @@ import java.util.*;
 @Entity
 @Table(name = "ruoli")
 @NoArgsConstructor
+@JsonIgnoreProperties(value = {"id"})
 public  class RuoloUtente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
@@ -22,4 +24,5 @@ public  class RuoloUtente {
     }
 
     //CRAERE METODO ADDRUOLO
+
 }
