@@ -15,35 +15,19 @@ import java.util.UUID;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
-
-        @Query("SELECT c FROM Cliente c WHERE c.fatturatoAnnuale BETWEEN :rangeOne AND :rangeTwo")
-        Page<Cliente> filterByFatturato( long rangeOne,
-                                         long rangeTwo,
-                                        Pageable pageable);
+    @Query("SELECT c FROM Cliente c WHERE c.fatturatoAnnuale BETWEEN :rangeOne AND :rangeTwo")
+    Page<Cliente> filterByFatturato(long rangeOne, long rangeTwo, Pageable pageable);
 
     @Query("SELECT c FROM Cliente c WHERE c.dataInserimento BETWEEN :dateOne AND :dateTwo")
-    Page<Cliente> filterByDataInserimento( LocalDate dateOne,
-                                     LocalDate dateTwo,
-                                     Pageable pageable);
+    Page<Cliente> filterByDataInserimento(LocalDate dateOne, LocalDate dateTwo, Pageable pageable);
 
     @Query("SELECT c FROM Cliente c WHERE c.dataUltimoContatto BETWEEN :dateOne AND :dateTwo")
-    Page<Cliente> filterByDataUltimoContatto(LocalDate dateOne,
-                                             LocalDate dateTwo,
-                                             Pageable pageable);
+    Page<Cliente> filterByDataUltimoContatto(LocalDate dateOne, LocalDate dateTwo, Pageable pageable);
 
     @Query("SELECT c FROM Cliente c WHERE c.nomeContatto ILIKE %:partialName%")
-    Page<Cliente> filterByNomeContatto(
-            String partialName,
-            Pageable pageable
-    );
+    Page<Cliente> filterByNomeContatto(String partialName, Pageable pageable);
 
-
-    @Query("SELECT f FROM Fattura f WHERE f.clienti = :clienteId")
-    Page<Fattura> filterFattureByCliente(
-            UUID clienteId,
-            Pageable pageable
-    );
-
-
+    @Query("SELECT f FROM Fattura f WHERE f.clienti.id = :clienteId")
+    Page<Fattura> filterFattureByCliente(UUID clienteId, Pageable pageable);
 
 }

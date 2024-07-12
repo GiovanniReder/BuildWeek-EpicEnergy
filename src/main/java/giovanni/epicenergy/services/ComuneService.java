@@ -16,7 +16,4 @@ public class ComuneService {
     public Comune findComuneByCapAndName(String cap, String name){
         return comuneRepository.findByCapAndNomeComune(cap, name).orElseThrow(()-> new NotFoundException("Comune non trovato"));
     }
-//    public List<Comune> getAllComuniByProvincia(String provincia){
-//        return comuneRepository.findByProvincia(provincia);
-//    }
 }
