@@ -16,7 +16,6 @@ public class StatoFatturaService {
         if (statoFatturaRepository.findByStato(body.stato()).isPresent()){
             throw new BadRequestException("Stato fattura già inserito!");
         }else {
-
             return statoFatturaRepository.save(new StatoFattura(body.stato()));
         }
     }

@@ -37,7 +37,6 @@ public class UtenteService {
     @Autowired
     private RuoloUtenteService ruoloUtenteService;
 
-
     public Utente save(NuovoUtenteDTO body) {
         this.utenteRepository.findByEmail(body.email()).ifPresent(
                 user -> {
@@ -87,6 +86,5 @@ public class UtenteService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return this.utenteRepository.findAll(pageable);
     }
-
 
 }

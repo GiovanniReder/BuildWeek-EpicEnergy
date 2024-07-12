@@ -30,13 +30,13 @@ public class FatturaService {
     private ClienteService clienteService;
 
     public Fattura save(NuovaFatturaDTO body){
-      if (this.fatturaRepository.findByNumero(body.numero()).isPresent()){
-          throw new BadRequestException("Fattura già presente");
-      }
-      Fattura nuova= new Fattura(body.numero(), body.data(), body.importo());
-      nuova.setStato(statoFatturaRepository.findByStato("DA_PAGARE").orElseThrow(()-> new BadRequestException("Stato non trovato")));
-      nuova.setClienti(clienteService.findById(body.clienteId()));
-      return fatturaRepository.save(nuova);
+        if (this.fatturaRepository.findByNumero(body.numero()).isPresent()){
+            throw new BadRequestException("Fattura già presente");
+        }
+          Fattura nuova= new Fattura(body.numero(), body.data(), body.importo());
+          nuova.setStato(statoFatturaRepository.findByStato("DA_PAGARE").orElseThrow(()-> new BadRequestException("Stato non trovato")));
+          nuova.setClienti(clienteService.findById(body.clienteId()));
+          return fatturaRepository.save(nuova);
     }
 
     public Fattura patchStatoFattura(NuovaStatoFatturaDTO body , UUID fatturaid){
@@ -46,29 +46,27 @@ public class FatturaService {
         return fatturaRepository.save(found);
     }
 
-  public Page<Fattura> fatturaPerStato(NuovaStatoFatturaDTO body, int pageNumber, int pageSize, String sortBy){
-      if(pageSize > 20) pageSize = 20;
-      Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+    public Page<Fattura> fatturaPerStato(NuovaStatoFatturaDTO body, int pageNumber, int pageSize, String sortBy){
+        if(pageSize > 20) pageSize = 20;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return fatturaRepository.filterByStatoFattura(body.stato(), pageable);
-  }
+    }
 
-  public Page<Fattura> fatturaPerData(DataInserimentoDTO body, int pageNumber,int pageSize, String sortBy ){
-      if(pageSize > 20) pageSize = 20;
-      Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-      return fatturaRepository.filterByData(body.dataOne(), body.dataTwo() , pageable);
-  }
+    public Page<Fattura> fatturaPerData(DataInserimentoDTO body, int pageNumber,int pageSize, String sortBy ){
+        if(pageSize > 20) pageSize = 20;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        return fatturaRepository.filterByData(body.dataOne(), body.dataTwo() , pageable);
+    }
 
-  public Page<Fattura> fatturaPerImporto(FatturatoDTO body, int pageNumber,int pageSize, String sortBy){
-      if(pageSize > 20) pageSize = 20;
-      Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-      return fatturaRepository.filterByImporto(body.rangeOne(), body.rangeTwo() , pageable );
+    public Page<Fattura> fatturaPerImporto(FatturatoDTO body, int pageNumber,int pageSize, String sortBy){
+        if(pageSize > 20) pageSize = 20;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        return fatturaRepository.filterByImporto(body.rangeOne(), body.rangeTwo() , pageable );
+    }
 
-
-  }
-
-  public Page<Fattura> fatturaPerAnno(FatturaPerAnnoDTO body,int pageNumber, int pageSize, String sortBy ){
-      if(pageSize > 20) pageSize = 20;
-      Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-      return fatturaRepository.filterByAnno(body.anno(), pageable);
-  }
+    public Page<Fattura> fatturaPerAnno(FatturaPerAnnoDTO body,int pageNumber, int pageSize, String sortBy ){
+        if(pageSize > 20) pageSize = 20;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        return fatturaRepository.filterByAnno(body.anno(), pageable);
+    }
 }
