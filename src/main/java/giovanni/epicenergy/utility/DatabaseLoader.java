@@ -110,7 +110,7 @@ public class DatabaseLoader {
             if (Objects.equals(provincia.getProvincia(), "Reggio-Calabria")) provincia.setProvincia("Reggio Calabria");
             if (Objects.equals(provincia.getProvincia(), "Forli-Cesena")) provincia.setProvincia("Forlì-Cesena");
             if (Objects.equals(provincia.getProvincia(), "Reggio-Emilia")) provincia.setProvincia("Reggio nell'Emilia");
-            //provinciaRepository.save(provincia);   // solo prima run per inserire i dati nel db
+           // provinciaRepository.save(provincia);   // solo prima run per inserire i dati nel db
         }
 
         listaErrori.forEach(System.out::println);
@@ -119,7 +119,7 @@ public class DatabaseLoader {
             for (Provincia provincia: newProvinciaSet){
                 if (comune.getNomeProvincia().indexOf(provincia.getProvincia()) == 0){
                     comune.setProvincia(provinciaService.findByProvincia(comune.getNomeProvincia()));
-                    //comuneRepository.save(comune);  // solo prima run per inserire i dati nel db
+                   // comuneRepository.save(comune);  // solo prima run per inserire i dati nel db
                 }
             }
         }

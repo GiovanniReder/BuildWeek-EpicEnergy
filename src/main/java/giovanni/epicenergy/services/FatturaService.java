@@ -6,9 +6,15 @@ import giovanni.epicenergy.exceptions.BadRequestException;
 import giovanni.epicenergy.exceptions.NotFoundException;
 import giovanni.epicenergy.payloads.fatture.NuovaFatturaDTO;
 import giovanni.epicenergy.payloads.fatture.NuovaStatoFatturaDTO;
+import giovanni.epicenergy.payloads.filtri.DataInserimentoDTO;
+import giovanni.epicenergy.payloads.filtri.FatturatoDTO;
 import giovanni.epicenergy.repositories.fatture.FatturaRepository;
 import giovanni.epicenergy.repositories.fatture.StatoFatturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -38,4 +44,24 @@ public class FatturaService {
         found.setStato(foundStatoFattura);
         return fatturaRepository.save(found);
     }
+
+  public Page<Fattura> fatturaPerStato(NuovaStatoFatturaDTO body, int pageNumber, int pageSize, String sortBy){
+      if(pageSize > 20) pageSize = 20;
+      Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        return fatturaRepository.filterByStatoFattura(body.stato(), pageable);
+  }
+
+  public Page<Fattura> fatturaPerData(DataInserimentoDTO body, int pageNumber,int pageSize, String sortBy ){
+      if(pageSize > 20) pageSize = 20;
+      Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+      return fatturaRepository.filterByData(body.dataOne(), body.dataTwo() , pageable);
+  }
+
+  public Page<Fattura> fatturaPerImporto(FatturatoDTO body, int pageNumber,int pageSize, String sortBy){
+      if(pageSize > 20) pageSize = 20;
+      Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+      return fatturaRepository.filterByImporto(body.rangeOne(), body.rangeTwo() , pageable );
+
+
+  }
 }

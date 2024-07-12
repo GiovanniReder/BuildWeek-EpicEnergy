@@ -1,16 +1,32 @@
 package giovanni.epicenergy.controllers;
 
 import giovanni.epicenergy.entities.Cliente;
+
+import giovanni.epicenergy.entities.Fattura;
+import giovanni.epicenergy.entities.Indirizzo;
+import giovanni.epicenergy.exceptions.BadRequestException;
+
 import giovanni.epicenergy.payloads.NuovoIndirizzoDTO;
-import giovanni.epicenergy.payloads.clienti.ClienteFatturaDTO;
+import giovanni.epicenergy.payloads.clienti.ClienteResponseDTO;
 import giovanni.epicenergy.payloads.clienti.NuovoClienteDTO;
+
+import giovanni.epicenergy.payloads.clienti.NuovoClienteResponseDTO;
+import giovanni.epicenergy.payloads.clienti.NuovoIndirizzoResponseDTO;
+import giovanni.epicenergy.payloads.filtri.ClientePerNomeDTO;
+import giovanni.epicenergy.payloads.filtri.DataInserimentoDTO;
+import giovanni.epicenergy.payloads.filtri.DataUltimoContattoDTO;
+import giovanni.epicenergy.payloads.filtri.FatturatoDTO;
+
 import giovanni.epicenergy.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,38 +37,137 @@ public class ClienteController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente save(@RequestBody NuovoClienteDTO body){
-        return clienteService.save(body);
+    public NuovoClienteResponseDTO save(@RequestBody @Validated NuovoClienteDTO body, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getAllErrors());
+            throw new BadRequestException(bindingResult.getAllErrors());
+        }
+
+        return new NuovoClienteResponseDTO(clienteService.save(body).getId());
     }
 
     @PostMapping("/{clienteId}/indirizzo")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Cliente addIndirizzo(@PathVariable UUID clienteId, @RequestBody NuovoIndirizzoDTO body){
+    public Indirizzo addIndirizzo(@PathVariable UUID clienteId, @RequestBody NuovoIndirizzoDTO body){
         return clienteService.addIndirizzo(clienteId, body);
     }
 
-    @PutMapping("/{clienteId}/{indirizzoId}")
+    @PutMapping("/indirizzi/{indirizzoId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Cliente updateIndirizzo(@PathVariable UUID clienteId, @PathVariable UUID indirizzoId, @RequestBody NuovoIndirizzoDTO body){
-        return clienteService.updateIndirizzo(clienteId,indirizzoId,body);
+    public Indirizzo updateIndirizzo( @PathVariable UUID indirizzoId, @RequestBody NuovoIndirizzoDTO body){
+        return clienteService.updateIndirizzo(indirizzoId,body);
     }
 
-    @DeleteMapping("/{clienteId}/{indirizzoId}")
+
+
+    @PutMapping("/{clienteId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ClienteResponseDTO updateCliente( @PathVariable UUID clienteId, @RequestBody NuovoClienteDTO body){
+
+        return clienteService.updateCliente(clienteId,body);
+    }
+
+    @DeleteMapping("/{clienteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void deleteIndirizzo(@PathVariable UUID clienteId, @PathVariable UUID indirizzoId){
-         clienteService.deleteIndirizzo(clienteId,indirizzoId);
+    public void deleteCliente( @PathVariable UUID clienteId){
+        clienteService.deleteCliente(clienteId);
+    }
+
+    @DeleteMapping("/indirizzi/{indirizzoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void deleteIndirizzo( @PathVariable UUID indirizzoId){
+         clienteService.deleteIndirizzo(indirizzoId);
     }
 
 
     @GetMapping
-    public Page<Cliente> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy){
+    public Page<ClienteResponseDTO> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy){
+        return this.clienteService.getAll(page, size, sortBy);
+    }
+
+    @GetMapping("/provincia")
+    public Page<ClienteResponseDTO> getAllProvinciaSedeLegale(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "sedi.località") String sortBy){
         return this.clienteService.getAll(page, size, sortBy);
     }
 
     @GetMapping("/fatturati")
-    public Page<ClienteFatturaDTO> getAllFatturati(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy){
-        return this.clienteService.getAllFatturati(page, size, sortBy);
+    public Page<ClienteResponseDTO> getAllByFatturato(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "fatturatoAnnuale") String sortBy){
+        return this.clienteService.getAll(page, size, sortBy);
     }
+
+    @GetMapping("/nomi")
+    public Page<ClienteResponseDTO> getAllByNome(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "nomeContatto") String sortBy){
+        return this.clienteService.getAll(page, size, sortBy);
+    }
+
+    @GetMapping("/dataInserimento")
+    public Page<ClienteResponseDTO> getAllByDataInserimento(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataInserimento") String sortBy){
+        return this.clienteService.getAll(page, size, sortBy);
+    }
+
+    @GetMapping("/dataUltimoContatto")
+    public Page<ClienteResponseDTO> getAllByDataUltimoContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataUltimoContatto") String sortBy){
+        return this.clienteService.getAll(page, size, sortBy);
+    }
+
+    /*
+    @GetMapping("/filter/fatturatoAnnuale")
+    public List<Cliente> filterByFatturatoAnnuale(@RequestBody FatturatoDTO body){
+        return this.clienteService.filterByFatturatoAnnuale(body);
+    }
+    *  */
+    @GetMapping("/filter/fatturatoAnnuale")
+    public Page<Cliente> filterByFatturatoAnnuale(@RequestBody FatturatoDTO body,
+                                                  @RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "10") int size,
+                                                  @RequestParam(defaultValue = "fatturatoAnnuale") String  sortBy) {
+        return this.clienteService.filterByFatturatoAnnuale(body, page, size, sortBy);
+    }
+
+    @GetMapping("/filter/dataInserimento")
+    public Page<Cliente> filterByDataInserimento(@RequestBody DataInserimentoDTO body,
+                                                  @RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "10") int size,
+                                                  @RequestParam(defaultValue = "dataInserimento") String  sortBy) {
+        return this.clienteService.filterByDataInserimento(body, page, size, sortBy);
+    }
+
+    @GetMapping("/filter/dataUltimoContatto")
+    public Page<Cliente> filterByDataUltimoContatto(@RequestBody DataUltimoContattoDTO body,
+                                                    @RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "10") int size,
+                                                    @RequestParam(defaultValue = "dataUltimoContatto") String  sortBy
+                                                    ){
+        return this.clienteService.filterByDataUltimoContatto(body, page, size, sortBy);
+    }
+
+@GetMapping("filter/nomeContatto")
+    public Page<Cliente> filterByNomeContatto(@RequestBody ClientePerNomeDTO body,
+                                              @RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "10") int size,
+                                              @RequestParam(defaultValue = "nomeContatto") String  sortBy
+                                              ){
+
+        return this.clienteService.filterByNomeContatto(body,page,size,sortBy);
+}
+
+// FILTRI PER FATTURE
+    @GetMapping("/{clienteId}/fatture")
+    public Page<Fattura> filterFattureByCliente(
+            @PathVariable UUID clienteId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String  sortBy
+    ){
+       return this.clienteService.filterFattureByCliente(clienteId, page, size, sortBy);
+    }
+
+
+
+
+
+
 }

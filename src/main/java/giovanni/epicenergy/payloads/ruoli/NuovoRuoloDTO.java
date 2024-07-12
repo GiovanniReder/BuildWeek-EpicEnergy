@@ -1,4 +1,7 @@
 package giovanni.epicenergy.payloads.ruoli;
 
-public record NuovoRuoloDTO (String ruolo){
+import jakarta.validation.constraints.NotEmpty;
+
+
+public record NuovoRuoloDTO (@NotEmpty  String ruolo){
 }
