@@ -1,4 +1,8 @@
 package giovanni.epicenergy.payloads.ruoli;
 
-public record NuovoRuoloResponseDTO(String ruolo) {
+import jakarta.validation.constraints.NotEmpty;
+
+public record NuovoRuoloResponseDTO(
+        @NotEmpty(message = "Ruolo obbligatorio ")
+        String ruolo) {
 }
