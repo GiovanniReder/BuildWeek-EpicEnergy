@@ -9,6 +9,11 @@ import giovanni.epicenergy.services.RuoloUtenteService;
 import giovanni.epicenergy.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -34,18 +39,18 @@ public class UtenteController  {
 
     @PatchMapping("/{userId}/ruolo")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Utente uploadRuolo(@PathVariable UUID userId , @RequestBody @Validated NuovoRuoloResponseDTO ruolo, BindingResult bindingResult) {
+    public Utente addRuolo(@PathVariable UUID userId , @RequestBody @Validated NuovoRuoloResponseDTO ruolo, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getAllErrors());
             throw new BadRequestException(bindingResult.getAllErrors());
         }
-        return utenteService.patchRuolo(ruolo , userId);
+        return utenteService.addRuolo(ruolo , userId);
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public Page<Utente> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy){
-        return  this.utenteService.getAllEvent(page, size, sortBy);
+        return  this.utenteService.getAll(page, size, sortBy);
     }
 
     @PostMapping("/ruolo")

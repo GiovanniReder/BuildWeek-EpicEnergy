@@ -71,7 +71,7 @@ public class UtenteService {
         return utenteRepository.save(utente);
     }
 
-    public Utente patchRuolo(NuovoRuoloResponseDTO body , UUID utenteId){
+    public Utente addRuolo(NuovoRuoloResponseDTO body , UUID utenteId){
         Utente found= utenteRepository.findById(utenteId).orElseThrow(()-> new NotFoundException(utenteId));
 
         RuoloUtente ruoloCorrente = ruoloUtenteService.findByRuolo(body.ruolo());
@@ -86,7 +86,7 @@ public class UtenteService {
         return utenteRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 
-    public Page<Utente> getAllEvent(int pageNumber, int pageSize, String sortBy){
+    public Page<Utente> getAll(int pageNumber, int pageSize, String sortBy){
         if(pageSize > 50) pageSize = 50;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return this.utenteRepository.findAll(pageable);

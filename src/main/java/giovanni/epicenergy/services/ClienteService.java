@@ -147,7 +147,6 @@ public class ClienteService {
             throw new BadRequestException("Non è possibile cancellare l'indirizzo! Almeno un indirizzo è obbligatorio");
         }else {
             indirizzoRepository.delete(indirizzo);
-            clienteRepository.save(indirizzo.getIndirizzoCliente());
         }
     }
 

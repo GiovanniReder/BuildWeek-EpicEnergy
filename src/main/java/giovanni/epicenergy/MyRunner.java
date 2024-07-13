@@ -18,7 +18,7 @@ public class MyRunner implements CommandLineRunner {
            ruoloUtenteService.save(new NuovoRuoloDTO("USER") );
            ruoloUtenteService.save(new NuovoRuoloDTO("ADMIN") );
         } catch(BadRequestException error){
-            error.printStackTrace();
+            System.out.println(error);
        }
     }
 }

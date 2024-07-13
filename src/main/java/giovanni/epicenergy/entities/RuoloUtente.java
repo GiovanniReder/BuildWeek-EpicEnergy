@@ -22,7 +22,4 @@ public  class RuoloUtente {
     public RuoloUtente(String ruolo) {
         this.ruolo = ruolo;
     }
-
-    //CRAERE METODO ADDRUOLO
-
 }
